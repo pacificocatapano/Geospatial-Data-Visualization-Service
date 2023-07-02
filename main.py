@@ -21,8 +21,7 @@ class UBXParser():
                     if parsed.identity == 'NAV-STATUS':
                         pass
         
-        LLH = pd.DataFrame(LLH,
-                           columns=['Timestamp', 'Longitude', 'Latitude', 'Height'])
+        LLH = pd.DataFrame(LLH, columns=['Timestamp', 'Longitude', 'Latitude', 'Height'])
         STATUS = pd.DataFrame(STATUS)
 
         return LLH, STATUS
