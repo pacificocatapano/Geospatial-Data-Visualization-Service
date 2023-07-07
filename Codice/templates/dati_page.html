@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dati</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            color: #333;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-image: url("static/pattern.avif");
+            background-repeat: repeat;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #333;
+        }
+
+        table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .data-section {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .data-table {
+            background-color: #fff;
+        }
+
+        .data-table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .data-table td {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dati</h1>
+
+    <div class="data-section">
+        <h2>Dati ECEF</h2>
+        <table class="data-table">
+            <tr>
+                <th>Colonna 1</th>
+                <th>Colonna 2</th>
+                <th>Colonna 3</th>
+                <th>Colonna 4</th>
+                <th>Colonna 5</th>
+                <th>Colonna 6</th>
+                <th>Colonna 7</th>
+                <th>Colonna 8</th>
+                <th>Colonna 9</th>
+            </tr>
+            {% for dato in dati_ecef %}
+            <tr>
+                <td>{{ dato.colonna1 }}</td>
+                <td>{{ dato.colonna2 }}</td>
+                <td>{{ dato.colonna3 }}</td>
+                <td>{{ dato.colonna4 }}</td>
+                <td>{{ dato.colonna5 }}</td>
+                <td>{{ dato.colonna6 }}</td>
+                <td>{{ dato.colonna7 }}</td>
+                <td>{{ dato.colonna8 }}</td>
+                <td>{{ dato.colonna9 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="data-section">
+        <h2>Dati SSL</h2>
+        <table class="data-table">
+            <tr>
+                <th>Colonna 1</th>
+                <th>Colonna 2</th>
+                <th>Colonna 3</th>
+                <th>Colonna 4</th>
+                <th>Colonna 5</th>
+                <th>Colonna 6</th>
+                <th>Colonna 7</th>
+                <th>Colonna 8</th>
+                <th>Colonna 9</th>
+            </tr>
+            {% for dato in dati_ssl %}
+            <tr>
+                <td>{{ dato.colonna1 }}</td>
+                <td>{{ dato.colonna2 }}</td>
+                <td>{{ dato.colonna3 }}</td>
+                <td>{{ dato.colonna4 }}</td>
+                <td>{{ dato.colonna5 }}</td>
+                <td>{{ dato.colonna6 }}</td>
+                <td>{{ dato.colonna7 }}</td>
+                <td>{{ dato.colonna8 }}</td>
+                <td>{{ dato.colonna9 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="data-section">
+        <h2>Stato</h2>
+        <table class="data-table">
+            <tr>
+                <th>Colonna 1</th>
+                <th>Colonna 2</th>
+                <th>Colonna 3</th>
+                <th>Colonna 4</th>
+                <th>Colonna 5</th>
+            </tr>
+            {% for stato in stati %}
+            <tr>
+                <td>{{ stato.colonna1 }}</td>
+                <td>{{ stato.colonna2 }}</td>
+                <td>{{ stato.colonna3 }}</td>
+                <td>{{ stato.colonna4 }}</td>
+                <td>{{ stato.colonna5 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            background-image: url('/static/background_login.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border-radius: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+
+        .register-link,
+        .forgot-password-link {
+            color: white;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Autenticazione</h1>
+        {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        <form method="post" action="/login">
+            <input type="text" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="submit" value="Login">
+        </form>
+        <p>Non hai un account? <span class="register-link" onclick="redirectToRegistration()">Registrati ora</span></p>
+        <p><span class="forgot-password-link" onclick="redirectToPasswordRecovery()">Password dimenticata</span></p>
+    </div>
+
+    <script>
+        function redirectToRegistration() {
+            window.location.href = "/registrazione";
+        }
+
+        function redirectToPasswordRecovery() {
+            window.location.href = "/recupero-password";
+        }
+    </script>
+</body>
+</html>

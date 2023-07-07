@@ -1,23 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Jul  2 17:16:51 2023
+Created on Fri Jul  7 16:01:16 2023
 
-@author: pacif
+@author: Sasym
 """
-
-# Per farlo partire digitare su terminale anaconda streamlit run bozza_fronte-end.py
-
-import pandas as pd
+from streamlit_extras.switch_page_button import switch_page
 import streamlit as st 
+import requests
 import os
+import pandas as pd
+
 
 st.set_page_config(layout="wide")
-
-
 st.title("Interfaccia di visualizzazione dati geospaziali \U0001F30D")
 
+url = 'http://192.168.1.22:5000/download'
+destination = './ubx.csv'
+response = requests.get(url)
+response.raise_for_status()  # Controlla se la richiesta ha avuto successo
+with open(destination, 'wb') as file:
+    file.write(response.content)
 
-df_llh = pd.read_csv("./provaUBXllh.csv", sep = ';')
+df_llh = pd.read_csv("./ubx.csv", sep = ';')
 df_status = pd.read_csv("./provaUBXstatus.csv", sep = ';')
 df_ecef = pd.read_csv("./provaUBXecef.csv", sep = ';') 
 

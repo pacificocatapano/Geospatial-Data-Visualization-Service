@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dati</title>
+</head>
+<body>
+    <h1>Pagina dati</h1>
+    <!-- Inserisci qui il codice HTML per visualizzare i dati -->
+</body>
+</html>
