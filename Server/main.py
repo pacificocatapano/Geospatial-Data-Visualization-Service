@@ -9,11 +9,15 @@ app.config.from_object('config')
 
 app.register_blueprint(GestioneUtente_bp, url_prefix='/')
 
-#initDB()
+initDB()
 
 @app.route('/')
 def index():
     return 'Homepage'
+
+@app.route('/data')
+def data():
+    return render_template('/data.html')
 
 # ----------------------- GESTIONE UTENTE -----------------------
 @app.route('/login')

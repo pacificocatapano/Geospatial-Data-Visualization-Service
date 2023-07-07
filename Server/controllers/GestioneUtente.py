@@ -7,39 +7,45 @@ def login():
         Email = request.form['Email']
         Password = request.form['Password']
         connection = connectDB()
-        account = connection.execute('SELECT * FROM Utenti WHERE Email = ? AND PWD = ?', (Email, Password,)).fetchone()
-
+        account = connection.execute('SELECT * FROM Utenti WHERE Email = ? AND Password = ?', (Email, Password,)).fetchone()
+        print('bbbbbbbbb')
         if account:
             session['loggedin'] = True
             session['username'] = account['Email']
             connection = connectDB()
             connection.close()
-            msg = f'Benvenuto {Email}!'
+            print('aaaaaaaaaa')
+            return render_template('/data.html')
         else:
             msg = 'Credenziali inserite non valide!'
     return render_template('/Utente/login.html',msg=msg)
 
 def register():
+    print('cccccccc')
+    msg = ''
     if request.method == 'POST':
         Email = request.form['Email']
         Password = request.form['Password']
         connection = connectDB()
-        error = None
 
         if not Email:
-            error = 'Email is required.'
+            msg = 'Email is required.'
         elif not Password:
-            error = 'Password is required.'
+            msg = 'Password is required.'
 
-        if error is None:
+        if msg == '':
             try:
                 connection.execute(
-                    "INSERT INTO user (Email, Password) VALUES (?, ?)",
+                    "INSERT INTO Utenti (Email, Password) VALUES (?, ?)",
                     # HASHING PASSWORD
                     (Email, Password),
                 )
                 connection.commit()
+            
             except connection.IntegrityError:
-                error = f"Email {Email} is already registered."
+                msg = f'Email {Email} è già registrato.'
+                return render_template('Utente/register.html', msg=msg)
+        
+        return render_template('/Utente/login.html', msg=msg)
 
-    return render_template('Utente/register.html')
+    return render_template('Utente/register.html', msg=msg)
