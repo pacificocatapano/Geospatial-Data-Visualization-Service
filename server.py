@@ -5,12 +5,16 @@ Created on Tue Jul  4 11:41:41 2023
 @author: Sasym
 """
 
-from flask import Flask, request
+from flask import Flask, request, send_file
 import os
+import pandas as pd
+import streamlit as st 
+
 app = Flask(__name__)
 
 @app.route('/')
 def index():
+    
     return 'Hello world'
 
 @app.route('/upload', methods=['POST'])
@@ -21,8 +25,13 @@ def upload_file():
     csv = parsing(file)
     save_csv_in_database()
     """
-    file.save(os.path.join('Salva', 'file.txt'))
+    file.save(os.path.join('Salva', 'file.csv'))
+
     return 'File caricato con successo!'
 
+@app.route('/download', methods=['GET'])
+def download_file():
+    return send_file('Salva/file.csv')
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='192.168.1.22')
