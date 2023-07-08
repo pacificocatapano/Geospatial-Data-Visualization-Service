@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS HP_POSLLH;
 DROP TABLE IF EXISTS HP_POSECEF;
 DROP TABLE IF EXISTS STATUS;
 
-CREATE TABLE IF NOT EXISTS `Utenti` (
+CREATE TABLE IF NOT EXISTS 'Utenti' (
 	Nome VARCHAR(50),
 	Cognome VARCHAR(50),
 	Email VARCHAR(50) PRIMARY KEY,
@@ -11,47 +11,50 @@ CREATE TABLE IF NOT EXISTS `Utenti` (
 	UNIQUE(Email)
 );
 
-CREATE TABLE IF NOT EXISTS 'HP_POSLLH' (
-	Version TEXT,
-	Reserved TEXT,
-	Flags INT,
-	InvalidLLH BOOLEAN,
+CREATE TABLE IF NOT EXISTS 'HPPOSLLH' (
+	version TEXT,
+	reserved0 TEXT,
+	invalidLlh BOOLEAN,
 	iTOW INT PRIMARY KEY,
-	Lon REAL(10, 7),
-	Lat REAL(10, 7),
-	Height INT,
+	lon REAL(10, 7),
+	lat REAL(10, 7),
+	height INT,
 	hMSL INT,
-	HpLon REAL(10, 7),
-	HpLat REAL(10, 7),
-	HpHeight INT,
-	HphMSL INT,
+	lonHp REAL(10, 9),
+	latHp REAL(10, 9),
+	heightHp INT,
+	hMSLHp INT,
 	hAcc INT,
-	vAcc INT,
+	vAcc INT
 );
 
-CREATE TABLE IF NOT EXISTS 'HP_POSECEF' (
-	Version TEXT,
-	Reserved TEXT,
+CREATE TABLE IF NOT EXISTS 'HPPOSECEF' (
+	version TEXT,
+	reserved0 TEXT,
 	iTOW INT PRIMARY KEY,
-	EcefX DOUBLE,
-	EcefY DOUBLE,
-	EcefZ DOUBLE,
-	HpEcefX DOUBLE,
-	HpEcefY DOUBLE,
-	HpEcefZ DOUBLE,
-	Flags INT,
-	InvalidEcef BOOLEAN,
-	pAcc INT,
+	ecefX DOUBLE,
+	ecefY DOUBLE,
+	ecefZ DOUBLE,
+	ecefXHp DOUBLE,
+	ecefYHp DOUBLE,
+	ecefZHp DOUBLE,
+	invalidEcef BOOLEAN,
+	pAcc INT
 );
 
 CREATE TABLE IF NOT EXISTS 'STATUS' (
 	iTOW INT PRIMARY KEY,
 	gpsFix TEXT,
-	Flags INT,
 	gpsFixOk BOOLEAN,
-	fixStat INT,
+	diffSoln BOOLEAN,
+	wknSet BOOLEAN,
+	towSet BOOLEAN,
+	diffCorr BOOLEAN,
+	carrSolnValid BOOLEAN,
+	mapMatching INT,
+	psmState INT,
+	spoofDetState INT,
+	carrSoln INT,
 	ttff INT,
-	msss INT,
-	reserved TEXT,
-	flags INT
+	msss INT
 );
