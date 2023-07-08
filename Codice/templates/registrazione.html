@@ -42,7 +42,7 @@
 <body>
     <div class="register-container">
         <h1>Registrazione</h1>
-        <form method="post" action="/registrazione">
+        <form method="POST" action="/registrazione">
             <input type="text" name="nome" placeholder="Nome" required><br>
             <input type="text" name="cognome" placeholder="Cognome" required><br>
             <input type="email" name="email" placeholder="Email" required><br>
@@ -54,7 +54,7 @@
 
     <script>
         function redirectToLogin() {
-            window.location.href = "/";
+            window.location.href = "/login";
         }
     </script>
 </body>

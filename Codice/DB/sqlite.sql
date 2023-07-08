@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS Utenti;
+
+CREATE TABLE IF NOT EXISTS `Utenti` (
+	Email VARCHAR(50) PRIMARY KEY,
+	Password VARCHAR(50),
+	UNIQUE(Email)
+);

@@ -2,9 +2,247 @@
 <html>
 <head>
     <title>Dati</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            color: #333;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-image: url("static/pattern.avif");
+            background-repeat: repeat;
+            display: flex;
+        }
+
+        .menu-section {
+            width: 200px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .menu-section h2 {
+            margin-top: 0;
+        }
+
+        .menu-item {
+            margin-bottom: 10px;
+        }
+
+        .data-section {
+            flex: 1;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #333;
+        }
+
+        table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .data-table {
+            background-color: #fff;
+        }
+
+        .data-table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .data-table td {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Pagina dati</h1>
-    <!-- Inserisci qui il codice HTML per visualizzare i dati -->
+    <div class="menu-section">
+        <h2>Menu</h2>
+        <div class="menu-item">
+            <input type="checkbox" id="show-dati-ecef" checked>
+            <label for="show-dati-ecef">Mostra dati ECEF</label>
+        </div>
+        <div class="menu-item">
+            <input type="checkbox" id="show-dati-ssl" checked>
+            <label for="show-dati-ssl">Mostra dati SSL</label>
+        </div>
+        <div class="menu-item">
+            <input type="checkbox" id="show-stato" checked>
+            <label for="show-stato">Mostra stato</label>
+        </div>
+        <div class="menu-item">
+            <h3>Filtro colonna 1</h3>
+            <label for="col1-min">Valore min:</label>
+            <input type="range" id="col1-min" min="0" max="100" step="1">
+            <span id="col1-min-value">0</span>
+            <br>
+            <label for="col1-max">Valore max:</label>
+            <input type="range" id="col1-max" min="0" max="100" step="1">
+            <span id="col1-max-value">100</span>
+        </div>
+    </div>
+
+    <div class="data-section">
+        <h1>Dati</h1>
+
+        <div class="data-section" id="dati-ecef-section">
+            <h2>Dati ECEF</h2>
+            <table class="data-table">
+                <tr>
+                    <th>Colonna 1</th>
+                    <th>Colonna 2</th>
+                    <th>Colonna 3</th>
+                    <th>Colonna 4</th>
+                    <th>Colonna 5</th>
+                    <th>Colonna 6</th>
+                    <th>Colonna 7</th>
+                    <th>Colonna 8</th>
+                    <th>Colonna 9</th>
+                </tr>
+                {% for dato in dati_ecef %}
+                <tr>
+                    <td>{{ dato.colonna1 }}</td>
+                    <td>{{ dato.colonna2 }}</td>
+                    <td>{{ dato.colonna3 }}</td>
+                    <td>{{ dato.colonna4 }}</td>
+                    <td>{{ dato.colonna5 }}</td>
+                    <td>{{ dato.colonna6 }}</td>
+                    <td>{{ dato.colonna7 }}</td>
+                    <td>{{ dato.colonna8 }}</td>
+                    <td>{{ dato.colonna9 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="data-section" id="dati-ssl-section">
+            <h2>Dati SSL</h2>
+            <table class="data-table">
+                <tr>
+                    <th>Colonna 1</th>
+                    <th>Colonna 2</th>
+                    <th>Colonna 3</th>
+                    <th>Colonna 4</th>
+                    <th>Colonna 5</th>
+                    <th>Colonna 6</th>
+                    <th>Colonna 7</th>
+                    <th>Colonna 8</th>
+                    <th>Colonna 9</th>
+                </tr>
+                {% for dato in dati_ssl %}
+                <tr>
+                    <td>{{ dato.colonna1 }}</td>
+                    <td>{{ dato.colonna2 }}</td>
+                    <td>{{ dato.colonna3 }}</td>
+                    <td>{{ dato.colonna4 }}</td>
+                    <td>{{ dato.colonna5 }}</td>
+                    <td>{{ dato.colonna6 }}</td>
+                    <td>{{ dato.colonna7 }}</td>
+                    <td>{{ dato.colonna8 }}</td>
+                    <td>{{ dato.colonna9 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="data-section" id="stato-section">
+            <h2>Stato</h2>
+            <table class="data-table">
+                <tr>
+                    <th>Colonna 1</th>
+                    <th>Colonna 2</th>
+                    <th>Colonna 3</th>
+                    <th>Colonna 4</th>
+                    <th>Colonna 5</th>
+                </tr>
+                {% for stato in stati %}
+                <tr>
+                    <td>{{ stato.colonna1 }}</td>
+                    <td>{{ stato.colonna2 }}</td>
+                    <td>{{ stato.colonna3 }}</td>
+                    <td>{{ stato.colonna4 }}</td>
+                    <td>{{ stato.colonna5 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Funzione per mostrare o nascondere le sezioni dei dati in base ai filtri
+        function toggleDataSections() {
+            const showDatiEcef = document.getElementById('show-dati-ecef').checked;
+            const showDatiSsl = document.getElementById('show-dati-ssl').checked;
+            const showStato = document.getElementById('show-stato').checked;
+
+            const datiEcefSection = document.getElementById('dati-ecef-section');
+            const datiSslSection = document.getElementById('dati-ssl-section');
+            const statoSection = document.getElementById('stato-section');
+
+            datiEcefSection.style.display = showDatiEcef ? 'block' : 'none';
+            datiSslSection.style.display = showDatiSsl ? 'block' : 'none';
+            statoSection.style.display = showStato ? 'block' : 'none';
+
+            // Applica il filtro sulla colonna 1
+            const col1Min = document.getElementById('col1-min').value;
+            const col1Max = document.getElementById('col1-max').value;
+
+            document.getElementById('col1-min-value').textContent = col1Min;
+            document.getElementById('col1-max-value').textContent = col1Max;
+
+            const datiEcefTable = document.getElementById('dati-ecef-table');
+            const datiSslTable = document.getElementById('dati-ssl-table');
+            const statoTable = document.getElementById('stato-table');
+
+            filterTableByColumn(datiEcefTable, 0, col1Min, col1Max);
+            filterTableByColumn(datiSslTable, 0, col1Min, col1Max);
+            filterTableByColumn(statoTable, 0, col1Min, col1Max);
+        }
+
+        // Funzione per filtrare la tabella in base al valore di una colonna
+        function filterTableByColumn(table, columnIndex, minValue, maxValue) {
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const cell = row.getElementsByTagName('td')[columnIndex];
+
+                const value = parseFloat(cell.textContent || cell.innerText);
+
+                if (value >= minValue && value <= maxValue) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+
+        // Aggiungi event listener per i filtri
+        document.getElementById('show-dati-ecef').addEventListener('change', toggleDataSections);
+        document.getElementById('show-dati-ssl').addEventListener('change', toggleDataSections);
+        document.getElementById('show-stato').addEventListener('change', toggleDataSections);
+        document.getElementById('col1-min').addEventListener('input', toggleDataSections);
+        document.getElementById('col1-max').addEventListener('input', toggleDataSections);
+
+        // Esegui la funzione per aggiornare le sezioni dei dati inizialmente
+        toggleDataSections();
+    </script>
 </body>
 </html>
+
