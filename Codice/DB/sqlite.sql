@@ -1,7 +1,57 @@
 DROP TABLE IF EXISTS Utenti;
+DROP TABLE IF EXISTS HP_POSLLH;
+DROP TABLE IF EXISTS HP_POSECEF;
+DROP TABLE IF EXISTS STATUS;
 
 CREATE TABLE IF NOT EXISTS `Utenti` (
+	Nome VARCHAR(50),
+	Cognome VARCHAR(50),
 	Email VARCHAR(50) PRIMARY KEY,
 	Password VARCHAR(50),
 	UNIQUE(Email)
+);
+
+CREATE TABLE IF NOT EXISTS 'HP_POSLLH' (
+	Version TEXT,
+	Reserved TEXT,
+	Flags INT,
+	InvalidLLH BOOLEAN,
+	iTOW INT PRIMARY KEY,
+	Lon REAL(10, 7),
+	Lat REAL(10, 7),
+	Height INT,
+	hMSL INT,
+	HpLon REAL(10, 7),
+	HpLat REAL(10, 7),
+	HpHeight INT,
+	HphMSL INT,
+	hAcc INT,
+	vAcc INT,
+);
+
+CREATE TABLE IF NOT EXISTS 'HP_POSECEF' (
+	Version TEXT,
+	Reserved TEXT,
+	iTOW INT PRIMARY KEY,
+	EcefX DOUBLE,
+	EcefY DOUBLE,
+	EcefZ DOUBLE,
+	HpEcefX DOUBLE,
+	HpEcefY DOUBLE,
+	HpEcefZ DOUBLE,
+	Flags INT,
+	InvalidEcef BOOLEAN,
+	pAcc INT,
+);
+
+CREATE TABLE IF NOT EXISTS 'STATUS' (
+	iTOW INT PRIMARY KEY,
+	gpsFix TEXT,
+	Flags INT,
+	gpsFixOk BOOLEAN,
+	fixStat INT,
+	ttff INT,
+	msss INT,
+	reserved TEXT,
+	flags INT
 );

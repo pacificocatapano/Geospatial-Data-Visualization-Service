@@ -1,4 +1,5 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
+from DB.DB import connectDB
 import random
 import string
 
@@ -15,35 +16,55 @@ def invia_email_recupero_password(email, password):
 # -----------------------
 
 def login():
+    msg = ''
     if request.method == 'POST':
 
-        username = request.form['email']
+        email = request.form['email']
         password = request.form['password']
 
-        # Esempio di controllo delle credenziali
-        if username == 'admin@live.it' and password == 'password':
+        connection = connectDB()
+        account = connection.execute('SELECT * FROM Utenti WHERE Email = ? AND Password = ?', (email, password,)).fetchone()
+
+        if account:
+            session['loggedin'] = True
+            session['username'] = account['Email']
+            connection = connectDB()
+            connection.close()
             return redirect(url_for('dati'))
         else:
-            error_message = "Credenziali non valide. Riprova."
-            return render_template('login.html', error_message=error_message)
+            msg = 'Credenziali inserite non valide!'
+            connection.close()
+            return render_template('login.html', msg=msg)
     
-    return render_template('login.html')
+    return render_template('login.html', msg=msg)
 
 def registrazione():
+    msg = ''
     if request.method == 'POST':
         # Ottieni i dati dal modulo di registrazione
         nome = request.form['nome']
         cognome = request.form['cognome']
         email = request.form['email']
         password = request.form['password']
+        connection = connectDB()
 
-        # Esegui la logica di controllo per la registrazione
-        # Qui puoi verificare l'unicità dell'email, fare controlli sui campi, salvare i dati nel database, ecc.
+        # CONTROLLO EMAIL
+        try:
+            connection.execute(
+                "INSERT INTO Utenti (Nome, Cognome, Email, Password) VALUES (?, ?, ?, ?)",
+                (nome, cognome, email, password),
+            )
+            connection.commit()
+            connection.close()
+        except connection.IntegrityError:
+            msg = f'L\'utente {email} è già registrato.'
+            connection.close()
+            return render_template('registrazione.html', msg=msg)
 
         # Reindirizza l'utente a una pagina di conferma o alla pagina di login
         return redirect(url_for('login'))
 
-    return render_template('registrazione.html')
+    return render_template('registrazione.html', msg=msg)
 
 def recupero_password():
     if request.method == 'POST':

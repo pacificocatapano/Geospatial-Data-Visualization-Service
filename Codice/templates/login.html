@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <head>
     <title>Login</title>
     <style>
@@ -42,8 +45,12 @@
 <body>
     <div class="login-container">
         <h1>Autenticazione</h1>
-        {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
+        {% if msg != "" %}
+            {% block content %}
+            <div class="alert alert-danger" role="alert">
+                {{ msg }}
+            </div>
+            {% endblock content %}
         {% endif %}
         <form method="post" action="/login">
             <input type="text" name="email" placeholder="Email" required><br>
