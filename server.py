@@ -34,4 +34,4 @@ def download_file():
     return send_file('Salva/file.csv')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.1.22')
+    app.run(debug=True)
