@@ -8,20 +8,17 @@ def login():
         Password = request.form['Password']
         connection = connectDB()
         account = connection.execute('SELECT * FROM Utenti WHERE Email = ? AND Password = ?', (Email, Password,)).fetchone()
-        print('bbbbbbbbb')
         if account:
             session['loggedin'] = True
             session['username'] = account['Email']
             connection = connectDB()
             connection.close()
-            print('aaaaaaaaaa')
             return render_template('/data.html')
         else:
             msg = 'Credenziali inserite non valide!'
     return render_template('/Utente/login.html',msg=msg)
 
 def register():
-    print('cccccccc')
     msg = ''
     if request.method == 'POST':
         Email = request.form['Email']
