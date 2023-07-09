@@ -69,9 +69,45 @@
             background-color: #f2f2f2;
             color: #333;
         }
+
+        .user-menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .user-menu-icon {
+            cursor: pointer;
+        }
+
+        .user-menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1;
+        }
+
+        .user-menu-dropdown a {
+            display: block;
+            padding: 5px 0;
+            text-decoration: none;
+            color: #333;
+        }
     </style>
 </head>
 <body>
+    <div class="user-menu">
+        <i class="fas fa-user user-menu-icon" onclick="toggleUserMenu()"></i>
+        <div class="user-menu-dropdown" id="user-menu-dropdown">
+            <a href="#">Recupera password</a>
+            <a href="#">Logout</a>
+        </div>
+    </div>
+
     <div class="menu-section">
         <h2>Menu</h2>
         <div class="menu-item">
@@ -233,6 +269,12 @@
             }
         }
 
+        // Funzione per mostrare o nascondere il menu utente
+        function toggleUserMenu() {
+            const userMenuDropdown = document.getElementById('user-menu-dropdown');
+            userMenuDropdown.style.display = userMenuDropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
         // Aggiungi event listener per i filtri
         document.getElementById('show-dati-ecef').addEventListener('change', toggleDataSections);
         document.getElementById('show-dati-ssl').addEventListener('change', toggleDataSections);
@@ -245,4 +287,3 @@
     </script>
 </body>
 </html>
-

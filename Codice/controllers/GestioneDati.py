@@ -22,3 +22,11 @@ def dati():
         return render_template('dati.html', dati_ecef=dati_ecef, dati_ssl=dati_ssl, stati=stati)
 
     return redirect(url_for('login'))
+
+
+"""
+def salvataggioDati(fileUBX):
+    df = parsing()
+    insert nel database
+    return
+"""
