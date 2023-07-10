@@ -96,7 +96,6 @@ def registrazione():
         email = request.form['email']
         password = request.form['password']
         connection = connectDB()
-        #email = email.replace('@','')
         # CONTROLLO EMAIL
         try:
             connection.execute(

@@ -1,18 +1,141 @@
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, request
+import pyubx2
+import pandas as pd
+from DB.DB import connectDB
+import os
 
+def parse_all(stream_path):
+    LLH = []
+    ECEF = []
+    STATUS = []
+    with open(stream_path, 'rb') as stream:
+        ubr = pyubx2.UBXReader(stream)
+        
+        for _, parsed in ubr:
+            if parsed != None:
+                if parsed.identity == 'NAV-HPPOSLLH':
+                    LLH.append([parsed.version,
+                                parsed.reserved0,
+                                parsed._get_dict()['flags'],
+                                parsed.invalidLlh,
+                                parsed.iTOW,
+                                parsed.lon,
+                                parsed.lat,
+                                parsed.height,
+                                parsed.hMSL,
+                                parsed._lonHp,
+                                parsed._latHp,
+                                parsed._heightHp,
+                                parsed._hMSLHp,
+                                parsed.hAcc,
+                                parsed.vAcc])
+                if parsed.identity == 'NAV-STATUS':
+                    
+                    STATUS.append([parsed.iTOW,
+                                   parsed.gpsFix,
+                                   parsed._get_dict()['flags'],
+                                   parsed.gpsFixOk,
+                                   parsed.diffSoln,
+                                   parsed.wknSet,
+                                   parsed.towSet,
+                                   parsed._get_dict()['fixStat'],
+                                   parsed.diffCorr,
+                                   parsed.carrSolnValid,
+                                   parsed.mapMatching,
+                                   parsed.psmState,
+                                   parsed.spoofDetState,
+                                   parsed.carrSoln,
+                                   parsed.ttff,
+                                   parsed.msss])
+                    
+                if parsed.identity == 'NAV-HPPOSECEF':
+                    ECEF.append([parsed.version,
+                                 parsed.reserved0,
+                                 parsed.iTOW,
+                                 parsed.ecefX,
+                                 parsed.ecefY,
+                                 parsed.ecefZ,
+                                 parsed.ecefXHp,
+                                 parsed.ecefYHp,
+                                 parsed.ecefZHp,
+                                 parsed._get_dict()['flags'],
+                                 parsed.invalidEcef,
+                                 parsed.pAcc])
+
+    schema_llh = ['version',
+                  'reserved0',
+                  'flags',
+                  'invalidLlh',
+                  'iTOW',
+                  'lon',
+                  'lat',
+                  'height',
+                  'hMSL',
+                  'lonHp',
+                  'latHp',
+                  'heightHp',
+                  'hMSLHp',
+                  'hAcc',
+                  'vAcc']
+    
+    schema_ecef = ['version',
+                   'reserved0',
+                   'iTOW',
+                   'ecefX',
+                   'ecefY',
+                   'ecefZ',
+                   'ecefXHp',
+                   'ecefYHp',
+                   'ecefZHp',
+                   'flags'
+                   'invalidEcef',
+                   'pAcc']
+
+    schema_status = ['iTOW',
+                     'gpsFix',
+                     'flags',
+                     'gpsFixOk',
+                     'diffSoln',
+                     'wknSet',
+                     'towSet',
+                     'fixStat',
+                     'diffCorr',
+                     'carrSolnValid',
+                     'mapMatching',
+                     'psmState',
+                     'spoofDetState',
+                     'carrSoln',
+                     'ttff',
+                     'msss']
+    
+    LLH = pd.DataFrame(LLH, columns=schema_llh)
+    STATUS = pd.DataFrame(STATUS, columns=schema_status)
+    ECEF = pd.DataFrame(ECEF, columns=schema_ecef)
+
+    return LLH, ECEF, STATUS
 def dati():
     # Esempio di dati per le tabelle
+    #Query nel database
+    connection = connectDB()
+    #   QUERY Dataframe into SQL Server:
+    ECEF =  pd.read_sql("SELECT * FROM HPPOSECEF", connection)  
+    LLH =  pd.read_sql("SELECT * FROM HPPOSLLH", connection)
+    STATUS = pd.read_sql("SELECT * FROM STATUS", connection)
+    connection.close()
+   
+    print(type(LLH))
+    print(LLH)
 
     if 'loggedin' in session:
+    
         dati_ecef = [
-            {'colonna1': 'Valore 1', 'colonna2': 'Valore 2', 'colonna3': 'Valore 3', 'colonna4': 'Valore 4', 'colonna5': 'Valore 5', 'colonna6': 'Valore 6', 'colonna7': 'Valore 7', 'colonna8': 'Valore 8', 'colonna9': 'Valore 9'},
+            {'version': ECEF['version'], 'colonna2': ECEF['reserved0'], 'Colonna3': 'Valore 3', 'colonna4': 'Valore 4', 'colonna5': 'Valore 5', 'colonna6': 'Valore 6', 'colonna7': 'Valore 7', 'colonna8': 'Valore 8', 'colonna9': 'Valore 9'},
             # Altri dati...
         ]
 
         dati_ssl = [
-            {'colonna1': 'Valore 1', 'colonna2': 'Valore 2', 'colonna3': 'Valore 3', 'colonna4': 'Valore 4', 'colonna5': 'Valore 5', 'colonna6': 'Valore 6', 'colonna7': 'Valore 7', 'colonna8': 'Valore 8', 'colonna9': 'Valore 9'},
-            # Altri dati...
-        ]
+            {'version': LLH['version'], 'reserved0': LLH['reserved0'], 'invalidLlh': LLH['invalidLlh'], 'iTOW': LLH['iTOW'], 'lon': LLH['lon'], 'lat': LLH['lat'], 'height': LLH['height'], 'hMSL': LLH['hMSL'], 'lonHp': LLH['lonHp'], 'latHp': LLH['latHp'], 'heightHp' : LLH['heightHp'], 'hMSLHp' : LLH['hMSLHp'], 'hAcc' : LLH['hAcc'] , 'vAcc' : LLH['vAcc']},
+            ]
 
         stati = [
             {'colonna1': 'Valore 1', 'colonna2': 'Valore 2', 'colonna3': 'Valore 3', 'colonna4': 'Valore 4', 'colonna5': 'Valore 5'},
@@ -20,13 +143,67 @@ def dati():
         ]
 
         return render_template('dati.html', dati_ecef=dati_ecef, dati_ssl=dati_ssl, stati=stati)
-
     return redirect(url_for('login'))
 
 
-"""
-def salvataggioDati(fileUBX):
-    df = parsing()
-    insert nel database
-    return
-"""
+
+def acquisisciDati():
+    file = request.files['file']  # Ottieni il file dalla richiesta
+    path = os.path.join('tmp', 'file.ubx')
+    file.save(path)    
+    LLH, ECEF, STATUS = parse_all(path)
+    os.remove(path)
+    """
+    ECEF
+    """
+    #insert nel database
+    connection = connectDB()
+    cursor = connection.cursor()
+# Insert Dataframe into SQL Server:
+    # CONTROLLO EMAIL
+    try:
+        for index, row in ECEF.iterrows():
+             cursor.execute("INSERT INTO HPPOSECEF (version, reserved0, iTOW, ecefX, ecefY, ecefZ, ecefXHp, ecefYHp, ecefZHp, invalidEcef, pAcc) values(?,?,?,?,?,?,?,?,?,?,?)", 
+                            (row.version, row.reserved0, row.iTOW, row.ecefX, row.ecefY, row.ecefZ, row.ecefXHp, row.ecefYHp, row.ecefZHp, row.invalidEcef, row.pAcc),)
+        cursor.close()
+        connection.commit()
+        connection.close()
+    except connection.IntegrityError:
+        connection.close()
+        return 'Acquisizione fallita ECEF'
+    
+    """
+    SLLH
+    """
+    connection = connectDB()
+    cursor = connection.cursor()
+# Insert Dataframe into SQL Server:
+    # CONTROLLO EMAIL
+    try:
+        for index, row in LLH.iterrows():
+             cursor.execute("INSERT INTO  HPPOSLLH (version, reserved0, invalidLlh, iTOW, lon, lat, height, hMSL, lonHp, latHp, heightHp, hMSLHp, hAcc, vAcc) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+                            (row.version, row.reserved0, row.invalidLlh, row.iTOW, row.lon, row.lat, row.height, row.hMSL, row.lonHp, row.latHp, row.heightHp, row.hMSLHp, row.hAcc, row.vAcc),)
+        cursor.close()
+        connection.commit()
+        connection.close()
+    except connection.IntegrityError:
+        connection.close()
+        return 'Acquisizione fallita LLH'
+    
+    connection = connectDB()
+    cursor = connection.cursor()
+# Insert Dataframe into SQL Server:
+    # CONTROLLO EMAIL
+    try:
+        for index, row in STATUS.iterrows():
+             cursor.execute("INSERT INTO STATUS (iTOW, gpsFix, gpsFixOk, diffSoln, wknSet, towSet, diffCorr, carrSolnValid, mapMatching, psmState, spoofDetState, carrSoln, ttff, msss) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+                            (row.iTOW, row.gpsFix, row.gpsFixOk, row.diffSoln, row.wknSet, row.towSet, row.diffCorr, row.carrSolnValid, row.mapMatching, row.psmState, row.spoofDetState, row.carrSoln, row.ttff, row.msss),)
+        cursor.close()
+        connection.commit()
+        connection.close()
+    except connection.IntegrityError:
+        connection.close()
+        return 'Acquisizione fallita STATUS'
+    
+    return 'Acquisizione terminata correttamente'
+

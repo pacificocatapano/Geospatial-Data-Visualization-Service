@@ -123,7 +123,7 @@
             <label for="show-stato">Mostra stato</label>
         </div>
         <div class="menu-item">
-            <h3>Filtro colonna 1</h3>
+            <h3>Filtro tempo</h3>
             <label for="col1-min">Valore min:</label>
             <input type="range" id="col1-min" min="0" max="100" step="1">
             <span id="col1-min-value">0</span>
@@ -135,85 +135,119 @@
     </div>
 
     <div class="data-section">
-        <h1>Dati</h1>
+        <h1>Dati geospaziali</h1>
 
         <div class="data-section" id="dati-ecef-section">
-            <h2>Dati ECEF</h2>
+            <h2>Dati HPPOSECEF</h2>
             <table class="data-table">
                 <tr>
-                    <th>Colonna 1</th>
-                    <th>Colonna 2</th>
-                    <th>Colonna 3</th>
-                    <th>Colonna 4</th>
-                    <th>Colonna 5</th>
-                    <th>Colonna 6</th>
-                    <th>Colonna 7</th>
-                    <th>Colonna 8</th>
-                    <th>Colonna 9</th>
+                    <th>version</th>
+                    <th>reserved0</th>
+                    <th>iTOW</th>
+                    <th>ecefX</th>
+                    <th>ecefY</th>
+                    <th>ecefZ</th>
+                    <th>ecefXHp</th>
+                    <th>ecefYHp</th>
+                    <th>ecefZHp</th>
+                    <th>invalidEcef</th>
+                    <th>pAcc</th>
+					
                 </tr>
                 {% for dato in dati_ecef %}
                 <tr>
-                    <td>{{ dato.colonna1 }}</td>
-                    <td>{{ dato.colonna2 }}</td>
-                    <td>{{ dato.colonna3 }}</td>
-                    <td>{{ dato.colonna4 }}</td>
-                    <td>{{ dato.colonna5 }}</td>
-                    <td>{{ dato.colonna6 }}</td>
-                    <td>{{ dato.colonna7 }}</td>
-                    <td>{{ dato.colonna8 }}</td>
-                    <td>{{ dato.colonna9 }}</td>
+                    <td>{{ dato.version }}</td>
+                    <td>{{ dato.reserved0 }}</td>
+                    <td>{{ dato.iTOW }}</td>
+                    <td>{{ dato.ecefX }}</td>
+                    <td>{{ dato.ecefY }}</td>
+                    <td>{{ dato.ecefZ }}</td>
+                    <td>{{ dato.ecefXHp }}</td>
+                    <td>{{ dato.ecefYHp }}</td>
+                    <td>{{ dato.ecefZHp }}</td>
+                    <td>{{ dato.invalidEcef }}</td>
+                    <td>{{ dato.pAcc }}</td>
+					
                 </tr>
                 {% endfor %}
             </table>
         </div>
 
         <div class="data-section" id="dati-ssl-section">
-            <h2>Dati SSL</h2>
+            <h2>Dati HPPOSLLH</h2>
             <table class="data-table">
                 <tr>
-                    <th>Colonna 1</th>
-                    <th>Colonna 2</th>
-                    <th>Colonna 3</th>
-                    <th>Colonna 4</th>
-                    <th>Colonna 5</th>
-                    <th>Colonna 6</th>
-                    <th>Colonna 7</th>
-                    <th>Colonna 8</th>
-                    <th>Colonna 9</th>
+                    <th>version</th>
+                    <th>reserved0</th>
+                    <th>invalidLlh</th>
+                    <th>iTOW</th>
+                    <th>lon</th>
+                    <th>lat</th>
+                    <th>height</th>
+                    <th>hMSL</th>
+                    <th>lonHp</th>
+					<th>latHp</th>
+					<th>heightHp</th>
+					<th>hMSLHHp</th>
+					<th>hAcc</th>
+					<th>vAcc</th>
                 </tr>
                 {% for dato in dati_ssl %}
                 <tr>
-                    <td>{{ dato.colonna1 }}</td>
-                    <td>{{ dato.colonna2 }}</td>
-                    <td>{{ dato.colonna3 }}</td>
-                    <td>{{ dato.colonna4 }}</td>
-                    <td>{{ dato.colonna5 }}</td>
-                    <td>{{ dato.colonna6 }}</td>
-                    <td>{{ dato.colonna7 }}</td>
-                    <td>{{ dato.colonna8 }}</td>
-                    <td>{{ dato.colonna9 }}</td>
+                    <td>{{ dato.version }}</td>
+                    <td>{{ dato.reserved0 }}</td>
+                    <td>{{ dato.invalidLlh }}</td>
+                    <td>{{ dato.iTOW }}</td>
+                    <td>{{ dato.lon }}</td>
+                    <td>{{ dato.lat }}</td>
+                    <td>{{ dato.height }}</td>
+                    <td>{{ dato.hMSL }}</td>
+                    <td>{{ dato.lonHp }}</td>
+                    <td>{{ dato.latHp }}</td>
+                    <td>{{ dato.heightHp }}</td>
+                    <td>{{ dato.hMSLHHp }}</td>
+                    <td>{{ dato.hAcc }}</td>
+                    <td>{{ dato.vAcc }}</td>					
                 </tr>
                 {% endfor %}
             </table>
         </div>
 
         <div class="data-section" id="stato-section">
-            <h2>Stato</h2>
+            <h2>STATUS</h2>
             <table class="data-table">
                 <tr>
-                    <th>Colonna 1</th>
-                    <th>Colonna 2</th>
-                    <th>Colonna 3</th>
-                    <th>Colonna 4</th>
-                    <th>Colonna 5</th>
+                    <th>iTOW</th>
+                    <th>gpsFix</th>
+                    <th>gpsFixOk</th>
+                    <th>diffSoln</th>
+                    <th>wknSet</th>
+                    <th>towSet</th>
+                    <th>diffCorr</th>
+                    <th>carrSolnValid</th>
+                    <th>mapMatching</th>
+                    <th>psmState</th>
+                    <th>spoofDetState</th>
+                    <th>carrSoln</th>
+                    <th>ttff</th>
+                    <th>msss</th>	
                 </tr>
                 {% for stato in stati %}
                 <tr>
-                    <td>{{ stato.colonna1 }}</td>
-                    <td>{{ stato.colonna2 }}</td>
-                    <td>{{ stato.colonna3 }}</td>
-                    <td>{{ stato.colonna4 }}</td>
-                    <td>{{ stato.colonna5 }}</td>
+                    <td>{{ stato.iTOW }}</td>
+                    <td>{{ stato.gpsFix }}</td>
+                    <td>{{ stato.gpsFixOk }}</td>
+                    <td>{{ stato.diffSoln }}</td>
+                    <td>{{ stato.wknSet }}</td>
+					<td>{{ stato.towSet }}</td>
+                    <td>{{ stato.diffCorr }}</td>
+                    <td>{{ stato.carrSolnValid }}</td>
+                    <td>{{ stato.mapMatching }}</td>
+                    <td>{{ stato.psmState }}</td>
+                    <td>{{ stato.spoofDetState }}</td>
+                    <td>{{ stato.carrSoln }}</td>
+                    <td>{{ stato.ttff }}</td>
+                    <td>{{ stato.msss }}</td>
                 </tr>
                 {% endfor %}
             </table>

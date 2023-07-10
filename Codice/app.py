@@ -38,5 +38,9 @@ def conferma_recupero_password():
 def dati():
     return render_template('dati.html')
 
+@app.route('/acquisisciDati')
+def acquisisciDati():
+    return 'Acquisizione dati'
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
