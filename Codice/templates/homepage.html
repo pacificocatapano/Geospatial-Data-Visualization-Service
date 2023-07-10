@@ -4,8 +4,10 @@
     <title>GeospazialWeb - Rilevamento dati geospaziali</title>
     <style>
         body {
-            background-image: url('static/background_login.png');
+            background-image: url('static/background.png');
             background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
             text-align: center;
             color: white;
             font-family: Arial, sans-serif;
@@ -20,7 +22,7 @@
         }
         
         .left-section {
-            text-align: left;
+            text-align: center;
             color: black;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
@@ -47,7 +49,7 @@
         }
         
         .button {
-            display: inline-block;
+            display: block;
             margin-top: 10px;
             padding: 10px 20px;
             background-color: #4CAF50;
@@ -56,6 +58,7 @@
             font-size: 16px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            width: 200px;
         }
         
         .button:hover {
@@ -67,7 +70,7 @@
     <div class="content">
         <div class="left-section">
             <h1 class="title">GeospazialWeb</h1>
-            <p class="description">Esplora i dati geospaziali catturati dai dispositivi IoT.</p>
+            <div class="description">Esplora i dati geospaziali catturati dai dispositivi IoT.</div>
         </div>
         <div class="right-section">
             <a class="button" href="registrazione">Registrati</a>

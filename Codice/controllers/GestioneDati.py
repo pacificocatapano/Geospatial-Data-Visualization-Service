@@ -123,26 +123,16 @@ def dati():
     STATUS = pd.read_sql("SELECT * FROM STATUS", connection)
     connection.close()
    
-    print(type(LLH))
-    print(LLH)
+
 
     if 'loggedin' in session:
     
-        dati_ecef = [
-            {'version': ECEF['version'], 'colonna2': ECEF['reserved0'], 'Colonna3': 'Valore 3', 'colonna4': 'Valore 4', 'colonna5': 'Valore 5', 'colonna6': 'Valore 6', 'colonna7': 'Valore 7', 'colonna8': 'Valore 8', 'colonna9': 'Valore 9'},
-            # Altri dati...
-        ]
+        # Converte le tabelle in stringhe HTML
+         html_table_ecef = ECEF.to_html(classes='table table-stripped')
+         html_table_llh = LLH.to_html(classes='table table-stripped')
+         html_table_status = STATUS.to_html(classes='table table-stripped')
 
-        dati_ssl = [
-            {'version': LLH['version'], 'reserved0': LLH['reserved0'], 'invalidLlh': LLH['invalidLlh'], 'iTOW': LLH['iTOW'], 'lon': LLH['lon'], 'lat': LLH['lat'], 'height': LLH['height'], 'hMSL': LLH['hMSL'], 'lonHp': LLH['lonHp'], 'latHp': LLH['latHp'], 'heightHp' : LLH['heightHp'], 'hMSLHp' : LLH['hMSLHp'], 'hAcc' : LLH['hAcc'] , 'vAcc' : LLH['vAcc']},
-            ]
-
-        stati = [
-            {'colonna1': 'Valore 1', 'colonna2': 'Valore 2', 'colonna3': 'Valore 3', 'colonna4': 'Valore 4', 'colonna5': 'Valore 5'},
-            # Altri dati...
-        ]
-
-        return render_template('dati.html', dati_ecef=dati_ecef, dati_ssl=dati_ssl, stati=stati)
+         return render_template('dati.html' , table_ecef=html_table_ecef, table_llh=html_table_llh, table_status=html_table_status)
     return redirect(url_for('login'))
 
 

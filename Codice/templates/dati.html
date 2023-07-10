@@ -1,323 +1,88 @@
 <!DOCTYPE html>
 <html>
+<style>
+    body {
+        background-image: url('static/pattern.avif');
+        background-repeat: repeat;
+    }
+</style>
 <head>
-    <title>Dati</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Visualizza DataFrame</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body {
-            background-color: #f2f2f2;
-            color: #333;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-image: url("static/pattern.avif");
-            background-repeat: repeat;
-            display: flex;
+        /* Stili personalizzati */
+        .card-container {
+            margin-top: 20px;
         }
-
-        .menu-section {
-            width: 200px;
+        
+        .table-container {
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+        
+        .table-fixed-header thead {
+            position: sticky;
+            top: 0;
             background-color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            margin-right: 20px;
-        }
-
-        .menu-section h2 {
-            margin-top: 0;
-        }
-
-        .menu-item {
-            margin-bottom: 10px;
-        }
-
-        .data-section {
-            flex: 1;
-            background-color: #f2f2f2;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        table th,
-        table td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #333;
-        }
-
-        table th {
-            background-color: #333;
-            color: #fff;
-        }
-
-        .data-table {
-            background-color: #fff;
-        }
-
-        .data-table th {
-            background-color: #333;
-            color: #fff;
-        }
-
-        .data-table td {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-
-        .user-menu {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .user-menu-icon {
-            cursor: pointer;
-        }
-
-        .user-menu-dropdown {
-            display: none;
-            position: absolute;
-            top: 30px;
-            right: 0;
-            background-color: #fff;
-            border-radius: 5px;
-            padding: 10px;
-            z-index: 1;
-        }
-
-        .user-menu-dropdown a {
-            display: block;
-            padding: 5px 0;
-            text-decoration: none;
-            color: #333;
         }
     </style>
 </head>
 <body>
-    <div class="user-menu">
-        <i class="fas fa-user user-menu-icon" onclick="toggleUserMenu()"></i>
-        <div class="user-menu-dropdown" id="user-menu-dropdown">
-            <a href="#">Recupera password</a>
-            <a href="#">Logout</a>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card card-container">
+                    <div class="card-header">
+                        <h2>Tabella ECEF</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table table-fixed-header">
+                                <tbody>
+                                    {{ table_ecef | safe }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card card-container">
+                    <div class="card-header">
+                        <h2>Tabella LLH</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table table-fixed-header>
+                                <tbody>
+                                    {{ table_llh | safe }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card card-container">
+                    <div class="card-header">
+                        <h2>Tabella STATUS</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table table-fixed-header">
+                                <tbody>
+                                    {{ table_status | safe }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="menu-section">
-        <h2>Menu</h2>
-        <div class="menu-item">
-            <input type="checkbox" id="show-dati-ecef" checked>
-            <label for="show-dati-ecef">Mostra dati ECEF</label>
-        </div>
-        <div class="menu-item">
-            <input type="checkbox" id="show-dati-ssl" checked>
-            <label for="show-dati-ssl">Mostra dati SSL</label>
-        </div>
-        <div class="menu-item">
-            <input type="checkbox" id="show-stato" checked>
-            <label for="show-stato">Mostra stato</label>
-        </div>
-        <div class="menu-item">
-            <h3>Filtro tempo</h3>
-            <label for="col1-min">Valore min:</label>
-            <input type="range" id="col1-min" min="0" max="100" step="1">
-            <span id="col1-min-value">0</span>
-            <br>
-            <label for="col1-max">Valore max:</label>
-            <input type="range" id="col1-max" min="0" max="100" step="1">
-            <span id="col1-max-value">100</span>
-        </div>
-    </div>
-
-    <div class="data-section">
-        <h1>Dati geospaziali</h1>
-
-        <div class="data-section" id="dati-ecef-section">
-            <h2>Dati HPPOSECEF</h2>
-            <table class="data-table">
-                <tr>
-                    <th>version</th>
-                    <th>reserved0</th>
-                    <th>iTOW</th>
-                    <th>ecefX</th>
-                    <th>ecefY</th>
-                    <th>ecefZ</th>
-                    <th>ecefXHp</th>
-                    <th>ecefYHp</th>
-                    <th>ecefZHp</th>
-                    <th>invalidEcef</th>
-                    <th>pAcc</th>
-					
-                </tr>
-                {% for dato in dati_ecef %}
-                <tr>
-                    <td>{{ dato.version }}</td>
-                    <td>{{ dato.reserved0 }}</td>
-                    <td>{{ dato.iTOW }}</td>
-                    <td>{{ dato.ecefX }}</td>
-                    <td>{{ dato.ecefY }}</td>
-                    <td>{{ dato.ecefZ }}</td>
-                    <td>{{ dato.ecefXHp }}</td>
-                    <td>{{ dato.ecefYHp }}</td>
-                    <td>{{ dato.ecefZHp }}</td>
-                    <td>{{ dato.invalidEcef }}</td>
-                    <td>{{ dato.pAcc }}</td>
-					
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-        <div class="data-section" id="dati-ssl-section">
-            <h2>Dati HPPOSLLH</h2>
-            <table class="data-table">
-                <tr>
-                    <th>version</th>
-                    <th>reserved0</th>
-                    <th>invalidLlh</th>
-                    <th>iTOW</th>
-                    <th>lon</th>
-                    <th>lat</th>
-                    <th>height</th>
-                    <th>hMSL</th>
-                    <th>lonHp</th>
-					<th>latHp</th>
-					<th>heightHp</th>
-					<th>hMSLHHp</th>
-					<th>hAcc</th>
-					<th>vAcc</th>
-                </tr>
-                {% for dato in dati_ssl %}
-                <tr>
-                    <td>{{ dato.version }}</td>
-                    <td>{{ dato.reserved0 }}</td>
-                    <td>{{ dato.invalidLlh }}</td>
-                    <td>{{ dato.iTOW }}</td>
-                    <td>{{ dato.lon }}</td>
-                    <td>{{ dato.lat }}</td>
-                    <td>{{ dato.height }}</td>
-                    <td>{{ dato.hMSL }}</td>
-                    <td>{{ dato.lonHp }}</td>
-                    <td>{{ dato.latHp }}</td>
-                    <td>{{ dato.heightHp }}</td>
-                    <td>{{ dato.hMSLHHp }}</td>
-                    <td>{{ dato.hAcc }}</td>
-                    <td>{{ dato.vAcc }}</td>					
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-        <div class="data-section" id="stato-section">
-            <h2>STATUS</h2>
-            <table class="data-table">
-                <tr>
-                    <th>iTOW</th>
-                    <th>gpsFix</th>
-                    <th>gpsFixOk</th>
-                    <th>diffSoln</th>
-                    <th>wknSet</th>
-                    <th>towSet</th>
-                    <th>diffCorr</th>
-                    <th>carrSolnValid</th>
-                    <th>mapMatching</th>
-                    <th>psmState</th>
-                    <th>spoofDetState</th>
-                    <th>carrSoln</th>
-                    <th>ttff</th>
-                    <th>msss</th>	
-                </tr>
-                {% for stato in stati %}
-                <tr>
-                    <td>{{ stato.iTOW }}</td>
-                    <td>{{ stato.gpsFix }}</td>
-                    <td>{{ stato.gpsFixOk }}</td>
-                    <td>{{ stato.diffSoln }}</td>
-                    <td>{{ stato.wknSet }}</td>
-					<td>{{ stato.towSet }}</td>
-                    <td>{{ stato.diffCorr }}</td>
-                    <td>{{ stato.carrSolnValid }}</td>
-                    <td>{{ stato.mapMatching }}</td>
-                    <td>{{ stato.psmState }}</td>
-                    <td>{{ stato.spoofDetState }}</td>
-                    <td>{{ stato.carrSoln }}</td>
-                    <td>{{ stato.ttff }}</td>
-                    <td>{{ stato.msss }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-
-    <script>
-        // Funzione per mostrare o nascondere le sezioni dei dati in base ai filtri
-        function toggleDataSections() {
-            const showDatiEcef = document.getElementById('show-dati-ecef').checked;
-            const showDatiSsl = document.getElementById('show-dati-ssl').checked;
-            const showStato = document.getElementById('show-stato').checked;
-
-            const datiEcefSection = document.getElementById('dati-ecef-section');
-            const datiSslSection = document.getElementById('dati-ssl-section');
-            const statoSection = document.getElementById('stato-section');
-
-            datiEcefSection.style.display = showDatiEcef ? 'block' : 'none';
-            datiSslSection.style.display = showDatiSsl ? 'block' : 'none';
-            statoSection.style.display = showStato ? 'block' : 'none';
-
-            // Applica il filtro sulla colonna 1
-            const col1Min = document.getElementById('col1-min').value;
-            const col1Max = document.getElementById('col1-max').value;
-
-            document.getElementById('col1-min-value').textContent = col1Min;
-            document.getElementById('col1-max-value').textContent = col1Max;
-
-            const datiEcefTable = document.getElementById('dati-ecef-table');
-            const datiSslTable = document.getElementById('dati-ssl-table');
-            const statoTable = document.getElementById('stato-table');
-
-            filterTableByColumn(datiEcefTable, 0, col1Min, col1Max);
-            filterTableByColumn(datiSslTable, 0, col1Min, col1Max);
-            filterTableByColumn(statoTable, 0, col1Min, col1Max);
-        }
-
-        // Funzione per filtrare la tabella in base al valore di una colonna
-        function filterTableByColumn(table, columnIndex, minValue, maxValue) {
-            const rows = table.getElementsByTagName('tr');
-
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i];
-                const cell = row.getElementsByTagName('td')[columnIndex];
-
-                const value = parseFloat(cell.textContent || cell.innerText);
-
-                if (value >= minValue && value <= maxValue) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            }
-        }
-
-        // Funzione per mostrare o nascondere il menu utente
-        function toggleUserMenu() {
-            const userMenuDropdown = document.getElementById('user-menu-dropdown');
-            userMenuDropdown.style.display = userMenuDropdown.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Aggiungi event listener per i filtri
-        document.getElementById('show-dati-ecef').addEventListener('change', toggleDataSections);
-        document.getElementById('show-dati-ssl').addEventListener('change', toggleDataSections);
-        document.getElementById('show-stato').addEventListener('change', toggleDataSections);
-        document.getElementById('col1-min').addEventListener('input', toggleDataSections);
-        document.getElementById('col1-max').addEventListener('input', toggleDataSections);
-
-        // Esegui la funzione per aggiornare le sezioni dei dati inizialmente
-        toggleDataSections();
-    </script>
 </body>
 </html>
