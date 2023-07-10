@@ -25,18 +25,54 @@
             top: 0;
             background-color: #fff;
         }
+        
+        .sidebar {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        
+        .filter-checkbox {
+            margin-bottom: 10px;
+        }
+        
+        .table-container.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <h2>Filtri</h2>
+                    <div class="filter-checkbox">
+                        <label for="filter-ecef">
+                            <input type="checkbox" id="filter-ecef" onchange="toggleTable('table-ecef')">
+                            Mostra/Nascondi Tabella ECEF
+                        </label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <label for="filter-llh">
+                            <input type="checkbox" id="filter-llh" onchange="toggleTable('table-llh')">
+                            Mostra/Nascondi Tabella LLH
+                        </label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <label for="filter-status">
+                            <input type="checkbox" id="filter-status" onchange="toggleTable('table-status')">
+                            Mostra/Nascondi Tabella STATUS
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
                 <div class="card card-container">
                     <div class="card-header">
                         <h2>Tabella ECEF</h2>
                     </div>
                     <div class="card-body">
-                        <div class="table-container">
+                        <div class="table-container" id="table-ecef">
                             <table class="table table-fixed-header">
                                 <tbody>
                                     {{ table_ecef | safe }}
@@ -45,17 +81,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
                 <div class="card card-container">
                     <div class="card-header">
                         <h2>Tabella LLH</h2>
                     </div>
                     <div class="card-body">
-                        <div class="table-container">
-                            <table class="table table-fixed-header>
+                        <div class="table-container" id="table-llh">
+                            <table class="table table-fixed-header">
                                 <tbody>
                                     {{ table_llh | safe }}
                                 </tbody>
@@ -63,16 +95,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
                 <div class="card card-container">
                     <div class="card-header">
                         <h2>Tabella STATUS</h2>
                     </div>
                     <div class="card-body">
-                        <div class="table-container">
+                        <div class="table-container" id="table-status">
                             <table class="table table-fixed-header">
                                 <tbody>
                                     {{ table_status | safe }}
@@ -84,5 +112,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleTable(tableId) {
+            var table = document.getElementById(tableId);
+            table.classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>
