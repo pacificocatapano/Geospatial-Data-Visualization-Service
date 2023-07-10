@@ -57,7 +57,7 @@ def generatore_password():
 AGGIUSTARE IL LINK O METTERE UNA PASSWORD GENERATA CASUALMENTE
 """
 def invia_email_recupero_password(email, password):
-    message = create_text_email(email, 'https://www.youtube.com/watch?v=QzsiH8ajojU&ab_channel=SerieA')
+    message = create_text_email(email, 'http://192.168.1.22:5000/registrazione')
     print(message)
     send_email(message, email)
 
