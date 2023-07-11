@@ -1,122 +1,163 @@
 <!DOCTYPE html>
 <html>
-<style>
-    body {
-        background-image: url('static/pattern.avif');
-        background-repeat: repeat;
-    }
-</style>
 <head>
-    <title>Visualizza DataFrame</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Interfaccia di visualizzazione dati geospaziali 🌍</title>
     <style>
-        /* Stili personalizzati */
-        .card-container {
-            margin-top: 20px;
+        /* Applica il font Segoe UI a tutte le scritte */
+        body, h1, h2, h3, h4, h5, h6, p, span, label, input, table, th, td {
+            font-family: "Segoe UI", sans-serif;
         }
         
-        .table-container {
-            max-height: 400px;
-            overflow-y: scroll;
-        }
-        
-        .table-fixed-header thead {
-            position: sticky;
-            top: 0;
-            background-color: #fff;
-        }
-        
+        /* Sidebar */
         .sidebar {
-            background-color: #f4f4f4;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: fit-content;
+            max-width: 300px;
+            height: 100%;
+            background-color: #f5f5f5;
             padding: 20px;
+            transition: width 0.3s ease-in-out;
+            z-index: 999;
         }
         
-        .filter-checkbox {
+        .sidebar.closed {
+            width: 0;
+            overflow: hidden;
+            padding: 0;
+        }
+        
+        .sidebar h3 {
+            text-align: left;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar .range-label {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar .range-input {
+            width: 100%;
+        }
+        
+        .sidebar .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        /* Main content */
+        .content {
+            margin-top: 50px;
+            margin-left: 320px;
+            margin-right: 10px; /* Spazio ridotto tra la sidebar e il contenuto a destra */
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+        
+        .open-icon {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .title {
+            text-align: left;
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .dataframe-container {
+            width: calc(100% - 330px); /* Modificato per tener conto dello spazio ridotto */
+            overflow-x: auto;
+            visibility: visible;
+        }
+        
+        .sidebar.closed .dataframe-container {
+            visibility: hidden;
+        }
+        
+        .dataframe {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .dataframe h3 {
+            font-size: 24px;
             margin-bottom: 10px;
         }
         
-        .table-container.hidden {
-            display: none;
+        @media only screen and (max-width: 768px) {
+            .content {
+                margin-left: 20px;
+                margin-right: 20px; /* Modificato per tener conto dello spazio ridotto */
+            }
+            
+            .dataframe-container {
+                width: calc(100% - 40px); /* Modificato per tener conto dello spazio ridotto */
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="sidebar">
-                    <h2>Filtri</h2>
-                    <div class="filter-checkbox">
-                        <label for="filter-ecef">
-                            <input type="checkbox" id="filter-ecef" onchange="toggleTable('table-ecef')">
-                            Mostra/Nascondi Tabella ECEF
-                        </label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <label for="filter-llh">
-                            <input type="checkbox" id="filter-llh" onchange="toggleTable('table-llh')">
-                            Mostra/Nascondi Tabella LLH
-                        </label>
-                    </div>
-                    <div class="filter-checkbox">
-                        <label for="filter-status">
-                            <input type="checkbox" id="filter-status" onchange="toggleTable('table-status')">
-                            Mostra/Nascondi Tabella STATUS
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="card card-container">
-                    <div class="card-header">
-                        <h2>Tabella ECEF</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-container" id="table-ecef">
-                            <table class="table table-fixed-header">
-                                <tbody>
-                                    {{ table_ecef | safe }}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-container">
-                    <div class="card-header">
-                        <h2>Tabella LLH</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-container" id="table-llh">
-                            <table class="table table-fixed-header">
-                                <tbody>
-                                    {{ table_llh | safe }}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-container">
-                    <div class="card-header">
-                        <h2>Tabella STATUS</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-container" id="table-status">
-                            <table class="table table-fixed-header">
-                                <tbody>
-                                    {{ table_status | safe }}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <span class="open-icon" onclick="toggleSidebar()">&#9776;</span>
+    
+    <div class="sidebar">
+        <span class="close-icon" onclick="toggleSidebar()">&#10006;</span>
+        <h3>&nbsp;</h3>
+        <h3>Filters</h3>
+        
+        <!-- TIME FILTER -->
+        <label class="range-label" for="timestamp">iTOW:</label>
+        <input class="range-input" type="range" id="timestamp" name="timestamp" min="min_value" max="max_value" value="min_value" />
+    </div>
+    
+    <div class="content">
+        <h1 class="title">Interfaccia di visualizzazione dati geospaziali 🌍</h1>
+        
+        <!-- Dataframe -->
+        <div class="dataframe-container">
+            <h3>LLH</h3>
+            <table class="dataframe">
+                <!-- LLH dataframe content -->
+            </table>
+        </div>
+        
+        <div class="dataframe-container">
+            <h3>STATUS</h3>
+            <table class="dataframe">
+                <!-- STATUS dataframe content -->
+            </table>
+        </div>
+        
+        <div class="dataframe-container">
+            <h3>ECEF</h3>
+            <table class="dataframe">
+                <!-- ECEF dataframe content -->
+            </table>
         </div>
     </div>
-
+    
     <script>
-        function toggleTable(tableId) {
-            var table = document.getElementById(tableId);
-            table.classList.toggle('hidden');
+        var sidebar = document.querySelector('.sidebar');
+        var content = document.querySelector('.content');
+        var dataframeContainers = document.querySelectorAll('.dataframe-container');
+        
+        function toggleSidebar() {
+            sidebar.classList.toggle('closed');
+            content.style.marginLeft = sidebar.classList.contains('closed') ? '20px' : '320px';
+            
+            dataframeContainers.forEach(function(container) {
+                container.classList.toggle('closed');
+            });
         }
     </script>
 </body>
