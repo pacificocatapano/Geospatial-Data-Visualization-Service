@@ -126,12 +126,14 @@ def dati():
 
 
     if 'loggedin' in session:
-    
+         ECEF = ECEF.drop('ID',axis=1)
+         LLH = LLH.drop('ID',axis=1)
+         STATUS = STATUS.drop('ID',axis=1)
         # Converte le tabelle in stringhe HTML
          html_table_ecef = ECEF.to_html(classes='table table-stripped')
          html_table_llh = LLH.to_html(classes='table table-stripped')
          html_table_status = STATUS.to_html(classes='table table-stripped')
-
+            
          return render_template('dati.html' , table_ecef=html_table_ecef, table_llh=html_table_llh, table_status=html_table_status)
     return redirect(url_for('login'))
 
