@@ -56,11 +56,11 @@
         .content {
             margin-top: 50px;
             margin-left: 320px;
-            margin-right: 10px; /* Spazio ridotto tra la sidebar e il contenuto a destra */
+            margin-right: -100px; /* Spazio ridotto tra la sidebar e il contenuto a destra */
             padding: 20px;
             transition: margin-left 0.3s ease-in-out;
         }
-        
+
         .open-icon {
             position: fixed;
             top: 10px;
@@ -105,6 +105,38 @@
                 width: calc(100% - 40px); /* Modificato per tener conto dello spazio ridotto */
             }
         }
+		
+		/* TABLE CONTAINER */
+		.dataframe-container {
+            max-height: 600px; /* Imposta l'altezza massima della tabella */
+            overflow-y: scroll; /* Abilita lo scrolling verticale */
+			margin-top: 20px;
+			margin-bottom: 80px;
+        }
+		.dataframe thead {
+			background-color: #000000; /* Imposta il colore di sfondo grigio chiaro per l'intestazione */
+		}
+		
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: lightgray;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            background-color: white; /* Aggiungi questo attributo per rendere le celle non trasparenti */
+        }
+		.dataframe td:first-child,
+		.dataframe th:first-child {
+			display: none;
+		}
+		
     </style>
 </head>
 <body>
@@ -124,24 +156,27 @@
         <h1 class="title">Interfaccia di visualizzazione dati geospaziali 🌍</h1>
         
         <!-- Dataframe -->
+		<h3>LLH</h3>
         <div class="dataframe-container">
-            <h3>LLH</h3>
             <table class="dataframe">
                 <!-- LLH dataframe content -->
+				{{ table_llh|safe }}
             </table>
         </div>
         
+		<h3>STATUS</h3>
         <div class="dataframe-container">
-            <h3>STATUS</h3>
             <table class="dataframe">
                 <!-- STATUS dataframe content -->
+				{{ table_status|safe }}
             </table>
         </div>
         
+		<h3>ECEF</h3>
         <div class="dataframe-container">
-            <h3>ECEF</h3>
             <table class="dataframe">
                 <!-- ECEF dataframe content -->
+				{{ table_ecef|safe }}
             </table>
         </div>
     </div>
