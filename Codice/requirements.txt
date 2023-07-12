@@ -3,3 +3,4 @@ pyubx2
 sendgrid
 pandas
 requests
+pytest
