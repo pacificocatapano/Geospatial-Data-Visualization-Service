@@ -141,6 +141,7 @@ def dati():
 
 def acquisisciDati():
     file = request.files['file']  # Ottieni il file dalla richiesta
+    os.makedirs('tmp', exist_ok=True)
     path = os.path.join('tmp', 'file.ubx')
     file.save(path)    
     LLH, ECEF, STATUS = parse_all(path)
