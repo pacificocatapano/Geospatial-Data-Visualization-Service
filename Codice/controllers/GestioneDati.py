@@ -148,11 +148,8 @@ def acquisisciDati():
     """
     ECEF
     """
-    #insert nel database
     connection = connectDB()
     cursor = connection.cursor()
-# Insert Dataframe into SQL Server:
-    # CONTROLLO EMAIL
     try:
         for index, row in ECEF.iterrows():
              cursor.execute("INSERT INTO HPPOSECEF (version, reserved0, iTOW, ecefX, ecefY, ecefZ, ecefXHp, ecefYHp, ecefZHp, invalidEcef, pAcc) values(?,?,?,?,?,?,?,?,?,?,?)", 
@@ -169,8 +166,6 @@ def acquisisciDati():
     """
     connection = connectDB()
     cursor = connection.cursor()
-# Insert Dataframe into SQL Server:
-    # CONTROLLO EMAIL
     try:
         for index, row in LLH.iterrows():
              cursor.execute("INSERT INTO  HPPOSLLH (version, reserved0, invalidLlh, iTOW, lon, lat, height, hMSL, lonHp, latHp, heightHp, hMSLHp, hAcc, vAcc) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
@@ -184,8 +179,6 @@ def acquisisciDati():
     
     connection = connectDB()
     cursor = connection.cursor()
-# Insert Dataframe into SQL Server:
-    # CONTROLLO EMAIL
     try:
         for index, row in STATUS.iterrows():
              cursor.execute("INSERT INTO STATUS (iTOW, gpsFix, gpsFixOk, diffSoln, wknSet, towSet, diffCorr, carrSolnValid, mapMatching, psmState, spoofDetState, carrSoln, ttff, msss) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 

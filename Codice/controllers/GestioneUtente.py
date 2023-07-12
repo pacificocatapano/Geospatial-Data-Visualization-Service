@@ -70,7 +70,6 @@ def login():
 
         email = request.form['email']
         password = request.form['password']
-        #email = email.replace()
         connection = connectDB()
         account = connection.execute('SELECT * FROM Utenti WHERE Email = ? AND Password = ?', (email, password,)).fetchone()
 
@@ -83,7 +82,7 @@ def login():
         else:
             msg = 'Credenziali inserite non valide!'
             connection.close()
-            return render_template('login.html', msg=msg)
+            return render_template('login.html', msg=msg), 401
     
     return render_template('login.html', msg=msg)
 
@@ -107,7 +106,7 @@ def registrazione():
         except connection.IntegrityError:
             msg = f'L\'utente {email} è già registrato.'
             connection.close()
-            return render_template('registrazione.html', msg=msg)
+            return render_template('registrazione.html', msg=msg), 400
 
         # Reindirizza l'utente a una pagina di conferma o alla pagina di login
         return redirect(url_for('login'))
@@ -131,7 +130,7 @@ def recupero_password():
             return redirect(url_for('conferma_recupero_password'))
 
         error_message = "Email non valida"
-        return render_template('recupero_password.html', error_message=error_message)
+        return render_template('recupero_password.html', error_message=error_message), 400
 
     return render_template('recupero_password.html')
 
