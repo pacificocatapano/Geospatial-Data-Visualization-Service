@@ -134,7 +134,7 @@ def dati():
          html_table_llh = LLH.to_html(classes='table table-stripped')
          html_table_status = STATUS.to_html(classes='table table-stripped')
             
-         return render_template('dati.html' , table_ecef=html_table_ecef, table_llh=html_table_llh, table_status=html_table_status)
+         return render_template('dati.html' , table_ecef=html_table_ecef, table_llh=html_table_llh, table_status=html_table_status), 200
     return redirect(url_for('login'))
 
 

@@ -75,3 +75,22 @@ def test_recupero_password_sbagliato(client):
 
     rv = client.post("/recupero_password", data=credenziali)
     assert rv.status_code == 400
+
+#-------- VISUALIZZA DATI --------
+
+def test_visualizza_dati_corretto(client):
+
+    credenziali = {
+        'email': 'fabboccia@gmail.com',
+        'password' : 'fabioboccia2000' 
+    }
+
+    rv = client.post("/login", data=credenziali)
+
+    rv = client.get("/dati")
+    assert rv.status_code == 200
+
+def test_visualizza_dati_sbagliato(client):
+
+    rv = client.get("/dati")
+    assert rv.status_code == 302
