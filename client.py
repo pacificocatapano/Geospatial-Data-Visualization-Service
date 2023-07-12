@@ -8,7 +8,7 @@ Created on Tue Jul  4 12:19:26 2023
 import requests
 
 # URL del server per l'upload del file
-url = 'http://127.0.0.1:5000//acquisisciDati'
+url = 'http://127.0.0.1:5000/acquisisciDati'
 
 # Path del file da inviare
 file_path = './file.ubx'

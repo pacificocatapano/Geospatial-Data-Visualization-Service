@@ -137,11 +137,37 @@
 			display: none;
 		}
 		
+		/* Add a class for indicating the sorting order */
+        .ascending::after {
+            content: ' ▲';
+        }
+
+        .descending::after {
+            content: ' ▼';
+        }
+		
+		 /* Logout icon */
+        /* Logout icon */
+        .logout-icon {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            text-decoration: none; /* Add this line to remove default text decoration */
+        }
+
+        /* Add a class for underlining the logout text when hovering */
+        .logout-icon:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <span class="open-icon" onclick="toggleSidebar()">&#9776;</span>
     
+	<a class="logout-icon" onclick = "logout()">Logout</a> <!-- Added logout icon -->
+		
     <div class="sidebar">
         <span class="close-icon" onclick="toggleSidebar()">&#10006;</span>
         <h3>&nbsp;</h3>
@@ -182,18 +208,59 @@
     </div>
     
     <script>
-        var sidebar = document.querySelector('.sidebar');
-        var content = document.querySelector('.content');
-        var dataframeContainers = document.querySelectorAll('.dataframe-container');
-        
-        function toggleSidebar() {
-            sidebar.classList.toggle('closed');
-            content.style.marginLeft = sidebar.classList.contains('closed') ? '20px' : '320px';
-            
-            dataframeContainers.forEach(function(container) {
-                container.classList.toggle('closed');
+        // Get all the header cells in the tables
+        var headerCells = document.querySelectorAll('table.dataframe th');
+
+        // Add click event listeners to the header cells
+        headerCells.forEach(function(cell) {
+            cell.addEventListener('click', function() {
+                var table = this.closest('table'); // Get the parent table
+                var columnIndex = Array.prototype.indexOf.call(this.parentNode.children, this); // Get the index of the clicked cell
+
+                // Get the rows of the table (excluding the header row)
+                var rows = Array.from(table.querySelectorAll('tbody tr'));
+
+                // Check if the column is currently sorted in ascending or descending order
+                var isAscending = this.classList.contains('ascending');
+                var isDescending = this.classList.contains('descending');
+
+                // Remove the sorting classes from all header cells
+                headerCells.forEach(function(headerCell) {
+                    headerCell.classList.remove('ascending', 'descending');
+                });
+
+                // Sort the rows based on the column values
+                if (isAscending || !isDescending) {
+                    rows.sort(function(a, b) {
+                        var aValue = parseFloat(a.cells[columnIndex].textContent.trim());
+                        var bValue = parseFloat(b.cells[columnIndex].textContent.trim());
+                        return aValue - bValue;
+                    });
+
+                    // Add the descending class to the clicked header cell
+                    this.classList.add('descending');
+                } else {
+                    rows.sort(function(a, b) {
+                        var aValue = parseFloat(a.cells[columnIndex].textContent.trim());
+                        var bValue = parseFloat(b.cells[columnIndex].textContent.trim());
+                        return bValue - aValue;
+                    });
+
+                    // Add the ascending class to the clicked header cell
+                    this.classList.add('ascending');
+                }
+
+                // Reorder the rows in the table body
+                var tbody = table.querySelector('tbody');
+                rows.forEach(function(row) {
+                    tbody.appendChild(row);
+                });
             });
-        }
+        });
+		
+		function logout(){
+			window.location.href = "/logout"
+		}
     </script>
 </body>
 </html>

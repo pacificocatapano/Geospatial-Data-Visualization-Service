@@ -136,3 +136,14 @@ def recupero_password():
 
 def conferma_recupero_password():
     return render_template('conferma_recupero_password.html')
+
+# Logout function
+def logout():
+    msg = ''
+    if request.method == 'POST':
+        session['loggedin'] = False
+        print("Sto facendo il ktm di logout", session['loggedin'])
+        print(request.method)
+        return redirect(url_for('login'))
+
+    return render_template('login.html', msg=msg)    
