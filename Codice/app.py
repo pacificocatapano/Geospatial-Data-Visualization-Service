@@ -44,7 +44,6 @@ def acquisisciDati():
 
 @app.route('/logout')
 def logout():
-    print("trapanaturo")
     return render_template('login.html')
 
 if __name__ == '__main__':

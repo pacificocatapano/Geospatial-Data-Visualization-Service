@@ -139,11 +139,5 @@ def conferma_recupero_password():
 
 # Logout function
 def logout():
-    msg = ''
-    if request.method == 'POST':
-        session['loggedin'] = False
-        print("Sto facendo il ktm di logout", session['loggedin'])
-        print(request.method)
-        return redirect(url_for('login'))
-
-    return render_template('login.html', msg=msg)    
+    session.clear()
+    return redirect(url_for('login'))    
