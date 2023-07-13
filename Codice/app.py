@@ -42,6 +42,15 @@ def dati():
 def acquisisciDati():
     return 'Acquisizione dati'
 
+<<<<<<< Updated upstream
+=======
+@app.route('/logout')
+def logout():
+    print("trapanaturo")
+    #return render_template('login.html')
+    return redirect(url_for('login'))
+
+>>>>>>> Stashed changes
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1')
     

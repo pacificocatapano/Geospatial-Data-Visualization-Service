@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+      width: 40vw;
+      height: 40vh;
+      background-color: white;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      position: absolute;
+      top: 40vh;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Modificato per allineare verticalmente al centro */
+      align-items: center; /* Modificato per allineare orizzontalmente al centro */
+      padding: 20px;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+      margin-left: auto; /* Aggiunto per centrare il form orizzontalmente */
+      margin-right: auto; /* Aggiunto per centrare il form orizzontalmente */
+      width: calc(100% - 40px);
+      background-color: #f2f2f2;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    input {
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: auto;
+	  margin-left:auto;
+	  margin-right: auto;
+    }
+
+    .button {
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 style="align-self: flex-start;">Login</h2>
+    <form class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" />
+    </form>
+    <form class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" />
+    </form>
+    <div class="button-group">
+      <button class="button" style="margin-right: auto;">Login</button>
+      <button class="button">Registrati</button>
+    </div>
+  </div>
+</body>
+</html>

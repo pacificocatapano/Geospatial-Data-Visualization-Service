@@ -136,4 +136,18 @@ def recupero_password():
     return render_template('recupero_password.html')
 
 def conferma_recupero_password():
+<<<<<<< Updated upstream
     return render_template('conferma_recupero_password.html')
+=======
+    return render_template('conferma_recupero_password.html')
+
+# Logout function
+def logout():
+    msg = ''
+    if request.method == 'POST':
+        session.pop('logged_in', None)
+        print("Sto facendo il ktm di logout", session['loggedin'])
+        return redirect(url_for('login'))
+
+    return render_template('login.html', msg=msg)    
+>>>>>>> Stashed changes
