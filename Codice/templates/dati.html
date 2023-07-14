@@ -73,6 +73,8 @@
             text-align: left;
             font-size: 50px;
             margin-bottom: 20px;
+            max-width: 100%;
+            overflow-wrap: break-word;
         }
         
         .dataframe-container {
@@ -166,7 +168,7 @@
 <body>
     <span class="open-icon" onclick="toggleSidebar()">&#9776;</span>
     
-	<a class="logout-icon" onclick = "logout()">Logout</a> <!-- Added logout icon -->
+	<a class="logout-icon" onclick="logout()">Logout</a> <!-- Added logout icon -->
 		
     <div class="sidebar">
         <span class="close-icon" onclick="toggleSidebar()">&#10006;</span>
@@ -179,7 +181,7 @@
     </div>
     
     <div class="content">
-        <h1 class="title">Interfaccia di visualizzazione dati geospaziali 🌍</h1>
+        <h1 class="title">Dati geospaziali 🌍</h1>
         
         <!-- Dataframe -->
 		<h3>LLH</h3>
@@ -208,6 +210,14 @@
     </div>
     
     <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('closed');
+
+            var content = document.querySelector('.content');
+            content.classList.toggle('expanded');
+        }
+
         // Get all the header cells in the tables
         var headerCells = document.querySelectorAll('table.dataframe th');
 
@@ -259,7 +269,7 @@
         });
 		
 		function logout(){
-			window.location.href = "/logout"
+			window.location.href = "/logout";
 		}
     </script>
 </body>
