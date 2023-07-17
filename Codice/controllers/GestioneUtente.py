@@ -2,7 +2,6 @@ from flask import render_template, request, redirect, url_for, session
 from DB.DB import connectDB
 import random
 import string
-import os
 import sendgrid
 from sendgrid.helpers.mail import Mail
 
@@ -114,6 +113,7 @@ def registrazione():
     return render_template('registrazione.html', msg=msg)
 
 def recupero_password():
+    msg = ''
     if request.method == 'POST':
         email = request.form['email']
 
@@ -129,10 +129,10 @@ def recupero_password():
             # Reindirizza l'utente a una pagina di conferma
             return redirect(url_for('conferma_recupero_password'))
 
-        error_message = "Email non valida"
-        return render_template('recupero_password.html', error_message=error_message), 400
+        msg = "Email non valida!"
+        return render_template('recupero_password.html', msg=msg), 400
 
-    return render_template('recupero_password.html')
+    return render_template('recupero_password.html', msg=msg)
 
 def conferma_recupero_password():
     return render_template('conferma_recupero_password.html')
