@@ -57,25 +57,6 @@ def test_login_sbagliato(client):
     rv = client.post("/login", data=credenziali)
     assert rv.status_code == 401
 
-#-------- RECUPERO PASSWORD --------
-def test_recupero_password_corretto(client):
-
-    credenziali = {
-        'email': 'fabboccia@gmail.com',
-    }
-
-    rv = client.post("/recupero_password", data=credenziali)
-    assert rv.status_code == 302
-
-def test_recupero_password_sbagliato(client):
-
-    credenziali = {
-        'email': 'simone@gmail.com',
-    }
-
-    rv = client.post("/recupero_password", data=credenziali)
-    assert rv.status_code == 400
-
 #-------- VISUALIZZA DATI --------
 
 def test_visualizza_dati_corretto(client):
@@ -94,3 +75,22 @@ def test_visualizza_dati_sbagliato(client):
 
     rv = client.get("/dati")
     assert rv.status_code == 302
+
+#-------- RECUPERO PASSWORD --------
+def test_recupero_password_corretto(client):
+
+    credenziali = {
+        'email': 'fabboccia@gmail.com',
+    }
+
+    rv = client.post("/recupero_password", data=credenziali)
+    assert rv.status_code == 302
+
+def test_recupero_password_sbagliato(client):
+
+    credenziali = {
+        'email': 'simone@gmail.com',
+    }
+
+    rv = client.post("/recupero_password", data=credenziali)
+    assert rv.status_code == 400

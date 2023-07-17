@@ -5,17 +5,15 @@ import string
 import sendgrid
 from sendgrid.helpers.mail import Mail
 
-def create_text_email(email, reset_link):
+def create_text_email(email, password):
     from_email = 'progettoSAD@outlook.com'
     to_email = email
-    subject = 'Reset Your Password'
+    subject = 'Resetta password'
     message = f'''
-    Hi,
-    We received a request to reset your password. Click on the link below to reset it:
-    {reset_link}
-    If you didn't request a password reset, please ignore this email.
-    Best regards,
-    Your Website Team
+    Gentile utente,
+    abbiamo ricevuto una richiesta per il reset della tua password. La tua nuova password è {password}
+
+    GeospatialWeb Team
     '''
     msg = Mail(
        from_email=from_email,
@@ -37,8 +35,6 @@ def send_email(msg, email):
     except Exception as e:
         print('Error sending email:', str(e))
         
-
-
 def email_valida(email):
     print(email)
     connection = connectDB()
@@ -52,14 +48,10 @@ def generatore_password():
     password = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
     return password
 
-"""
-AGGIUSTARE IL LINK O METTERE UNA PASSWORD GENERATA CASUALMENTE
-"""
 def invia_email_recupero_password(email, password):
-    message = create_text_email(email, 'http://192.168.1.22:5000/registrazione')
+    message = create_text_email(email, password)
     print(message)
     send_email(message, email)
-
 
 # -----------------------
 
@@ -126,6 +118,19 @@ def recupero_password():
             # Simula l'invio della nuova password all'indirizzo email
             invia_email_recupero_password(email, nuova_password)
 
+            connection = connectDB()
+
+            try:
+                connection.execute(
+                    "UPDATE Utenti SET Password = (?) WHERE Email = (?)",
+                    (nuova_password, email),
+                )
+                connection.commit()
+                connection.close()
+            except connection.IntegrityError:
+                msg = f'Errore aggiornamento password.'
+                connection.close()
+                return render_template('recupero_password.html', msg=msg), 400
             # Reindirizza l'utente a una pagina di conferma
             return redirect(url_for('conferma_recupero_password'))
 
