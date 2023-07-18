@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, url_for, session
+import bcrypt
 from DB.DB import connectDB
 import random
 import string
@@ -58,13 +59,13 @@ def invia_email_recupero_password(email, password):
 def login():
     msg = ''
     if request.method == 'POST':
-
+        
         email = request.form['email']
         password = request.form['password']
         connection = connectDB()
-        account = connection.execute('SELECT * FROM Utenti WHERE Email = ? AND Password = ?', (email, password,)).fetchone()
+        account = connection.execute('SELECT * FROM Utenti WHERE Email = ?', (email,)).fetchone()
 
-        if account:
+        if account and bcrypt.checkpw(password.encode('utf8'), account['Password']):
             session['loggedin'] = True
             session['username'] = account['Email']
             connection = connectDB()
@@ -85,12 +86,13 @@ def registrazione():
         cognome = request.form['cognome']
         email = request.form['email']
         password = request.form['password']
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         connection = connectDB()
         # CONTROLLO EMAIL
         try:
             connection.execute(
                 "INSERT INTO Utenti (Nome, Cognome, Email, Password) VALUES (?, ?, ?, ?)",
-                (nome, cognome, email, password),
+                (nome, cognome, email, hashed_password),
             )
             connection.commit()
             connection.close()
@@ -118,12 +120,14 @@ def recupero_password():
             # Simula l'invio della nuova password all'indirizzo email
             invia_email_recupero_password(email, nuova_password)
 
+            hashed_password = bcrypt.hashpw(nuova_password.encode('utf-8'), bcrypt.gensalt())
+
             connection = connectDB()
 
             try:
                 connection.execute(
                     "UPDATE Utenti SET Password = (?) WHERE Email = (?)",
-                    (nuova_password, email),
+                    (hashed_password, email),
                 )
                 connection.commit()
                 connection.close()
