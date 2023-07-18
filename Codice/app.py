@@ -44,7 +44,7 @@ def acquisisciDati():
 
 @app.route('/get_latest_data')
 def get_latest_data():
-    return 'aggiornamento dati'
+    return 'Aggiornamento dati'
 
 @app.route('/logout')
 def logout():

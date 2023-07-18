@@ -1,5 +1,4 @@
 import pyubx2
-import pandas as pd
 import requests
 from time import sleep
 

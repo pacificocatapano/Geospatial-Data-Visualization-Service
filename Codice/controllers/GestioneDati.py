@@ -1,7 +1,6 @@
 from flask import render_template, session, redirect, url_for, request, jsonify
 import pandas as pd
 from DB.DB import connectDB
-import json 
 
 def dati():
     connection = connectDB()
@@ -59,27 +58,21 @@ def acquisisciDati():
         
     return 'Acquisizione terminata con successo!'
 
-# Rotta per ottenere i dati più recenti
 def get_latest_data():
-    # Qui inserisci la logica per ottenere i dati più recenti dal tuo database
-    # Assumiamo che i dati siano rappresentati come dizionari
     connection = connectDB()
     llh_table =pd.read_sql("SELECT * FROM HPPOSLLH", connection)  # Funzione che ottiene la tabella LLH
     status_table =pd.read_sql("SELECT * FROM STATUS", connection)  # Funzione che ottiene la tabella STATUS
     ecef_table = pd.read_sql("SELECT * FROM HPPOSECEF", connection)    # Funzione che ottiene la tabella ECEF
     connection.close()
 
-     # Converti il DataFrame in una lista di dizionari
     ecef_table = ecef_table.drop('ID',axis=1)
     llh_table = llh_table.drop('ID',axis=1)
     status_table = status_table.drop('ID',axis=1)
 
-    
     ecef_table = ecef_table.to_html(classes='table table-stripped')
     llh_table = llh_table.to_html(classes='table table-stripped')
     status_table = status_table.to_html(classes='table table-stripped')
 
-    # Restituisci i dati come oggetto JSON
     return jsonify({
         'llhTable': llh_table,
         'statusTable': status_table,
