@@ -42,6 +42,10 @@ def dati():
 def acquisisciDati():
     return 'Acquisizione dati'
 
+@app.route('/get_latest_data')
+def get_latest_data():
+    return 'aggiornamento dati'
+
 @app.route('/logout')
 def logout():
     return render_template('login.html')

@@ -178,36 +178,41 @@
         <!-- TIME FILTER -->
         <label class="range-label" for="timestamp">iTOW:</label>
         <input class="range-input" type="range" id="timestamp" name="timestamp" min="min_value" max="max_value" value="min_value" />
+		<span class="close-icon" onclick="toggleSidebar()">&#10006;</span>
+		
+		<!-- Toggle button for automatic data update -->
+		<label class="toggle-label" for="auto-update-toggle">Auto Update:</label>
+		<input class="toggle-input" type="checkbox" id="auto-update-toggle" onchange="toggleAutoUpdate()" />
     </div>
     
     <div class="content">
         <h1 class="title">Dati geospaziali 🌍</h1>
-        
-        <!-- Dataframe -->
-		<h3>LLH</h3>
-        <div class="dataframe-container">
-            <table class="dataframe">
-                <!-- LLH dataframe content -->
-				{{ table_llh|safe }}
-            </table>
-        </div>
-        
-		<h3>STATUS</h3>
-        <div class="dataframe-container">
-            <table class="dataframe">
-                <!-- STATUS dataframe content -->
-				{{ table_status|safe }}
-            </table>
-        </div>
-        
-		<h3>ECEF</h3>
-        <div class="dataframe-container">
-            <table class="dataframe">
-                <!-- ECEF dataframe content -->
-				{{ table_ecef|safe }}
-            </table>
-        </div>
-    </div>
+			
+	<h3>LLH</h3>
+	<div class="dataframe-container" id="llh-table-container">
+		<table class="dataframe" id="llh-table">
+			<!-- LLH dataframe content -->
+			{{ table_llh|safe }}
+		</table>
+	</div>
+
+	<h3>STATUS</h3>
+	<div class="dataframe-container" id="status-table-container">
+		<table class="dataframe" id="status-table">
+			<!-- STATUS dataframe content -->
+			{{ table_status|safe }}
+		</table>
+	</div>
+
+	<h3>ECEF</h3>
+	<div class="dataframe-container" id="ecef-table-container">
+		<table class="dataframe" id="ecef-table">
+			<!-- ECEF dataframe content -->
+			{{ table_ecef|safe }}
+		</table>
+	</div>
+
+
     
     <script>
         function toggleSidebar() {
@@ -270,6 +275,50 @@
 		
 		function logout(){
 			window.location.href = "/logout";
+		}
+		
+		    // Funzione per effettuare la richiesta GET
+    function getLatestData() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/get_latest_data', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                // Aggiorna i dati nella pagina
+                updateData(data);
+            }
+        };
+
+        xhr.send();
+    }
+
+    // Funzione per aggiornare i dati nella pagina
+    function updateData(data) {
+        // Aggiorna il dataframe LLH
+        var llhContainer = document.getElementById('llh-table-container');
+        llhContainer.innerHTML = data.llhTable;
+
+        // Aggiorna il dataframe STATUS
+        var statusContainer = document.getElementById('status-table-container');
+        statusContainer.innerHTML = data.statusTable;
+
+        // Aggiorna il dataframe ECEF
+        var ecefContainer = document.getElementById('ecef-table-container');
+        ecefContainer.innerHTML = data.ecefTable;
+    }
+
+    // Esegui la richiesta GET ogni secondo
+	 var autoUpdateInterval; // Variabile per memorizzare l'ID dell'intervallo per l'aggiornamento automatico
+
+		function toggleAutoUpdate() {
+			var toggle = document.getElementById('auto-update-toggle');
+			if (toggle.checked) {
+				autoUpdateInterval = setInterval(getLatestData, 1000);
+			} else {
+				clearInterval(autoUpdateInterval);
+			}
 		}
     </script>
 </body>
