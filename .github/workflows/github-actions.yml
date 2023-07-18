@@ -23,6 +23,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Change directory
         working-directory: ./Codice
+        run: |
+          pwd
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
