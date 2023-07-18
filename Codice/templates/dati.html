@@ -163,6 +163,55 @@
         .logout-icon:hover {
             text-decoration: underline;
         }
+        /* Toggle Button */
+        .cm-toggle {
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            border: 0;
+            outline: 0;
+            cursor: pointer;
+            margin: 8px;
+        }
+
+
+        /* To create surface of toggle button */
+        .cm-toggle:after {
+            content: '';
+            width: 60px;
+            height: 28px;
+            display: inline-block;
+            background: rgba(195, 195, 196, 0.63);
+            border-radius: 18px;
+            clear: both;
+        }
+
+
+        /* Contents before checkbox to create toggle handle */
+        .cm-toggle:before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: -3px;
+            border-radius: 50%;
+            background: rgb(255, 255, 255);
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+
+        /* Shift the handle to left on check event */
+        .cm-toggle:checked:before {
+            left: 32px;
+            box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+        /* Background color when toggle button will be active */
+        .cm-toggle:checked:after {
+            background: #2c7ee9;
+        }
+
     </style>
 </head>
 <body>
@@ -178,12 +227,12 @@
         <!-- TIME FILTER -->
         <label class="range-label" for="timestamp">iTOW:</label>
         <input class="range-input" type="range" id="timestamp" name="timestamp" min="min_value" max="max_value" value="min_value" />
-		<span class="close-icon" onclick="toggleSidebar()">&#10006;</span>
-		
-		<!-- Toggle button for automatic data update -->
-		<label class="toggle-label" for="auto-update-toggle">Auto Update:</label>
-		<input class="toggle-input" type="checkbox" id="auto-update-toggle" onchange="toggleAutoUpdate()" />
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <label class="toggle-label" for="auto-update-toggle">Auto Update:</label>
+            <input class="cm-toggle" type="checkbox" name="checkbox" id="auto-update-toggle" onchange="toggleAutoUpdate()" />
+        </div>
     </div>
+    
     
     <div class="content">
         <h1 class="title">Dati geospaziali 🌍</h1>
