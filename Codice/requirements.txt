@@ -4,3 +4,4 @@ sendgrid
 pandas
 requests
 pytest
+bcrypt
