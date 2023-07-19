@@ -1,5 +1,6 @@
-from DB.DB import initDB
 from flask import Flask, render_template
+
+from DB.DB import initDB
 from routes.GestioneUtenteRoutes import GestioneUtente_bp
 from routes.GestioneDatiRoutes import GestioneDati_bp
 

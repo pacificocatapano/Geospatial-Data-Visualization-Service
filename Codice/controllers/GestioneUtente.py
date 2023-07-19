@@ -1,10 +1,12 @@
-from flask import render_template, request, redirect, url_for, session
-import bcrypt
-from DB.DB import connectDB
 import random
 import string
+
+import bcrypt
 import sendgrid
+from flask import render_template, request, redirect, url_for, session
 from sendgrid.helpers.mail import Mail
+
+from DB.DB import connectDB
 
 def create_text_email(email, password):
     from_email = 'progettoSAD@outlook.com'

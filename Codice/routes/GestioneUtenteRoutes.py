@@ -1,4 +1,5 @@
 from flask import Blueprint
+
 from controllers.GestioneUtente import *
 
 GestioneUtente_bp = Blueprint('GestioneUtente_bp', __name__)

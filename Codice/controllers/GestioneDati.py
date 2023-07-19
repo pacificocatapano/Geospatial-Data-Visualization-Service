@@ -1,5 +1,6 @@
-from flask import render_template, session, redirect, url_for, request, jsonify
 import pandas as pd
+from flask import render_template, session, redirect, url_for, request, jsonify
+
 from DB.DB import connectDB
 
 def dati():
