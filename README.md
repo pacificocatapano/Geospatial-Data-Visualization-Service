@@ -20,7 +20,7 @@ Before you begin, make sure you have Anaconda installed on your system. If you h
 
 #### 1. Clone the repository
 
-```console
+```bash
 git clone https://github.com/pacificocatapano/Geospatial-Data-Visualization-Service.git
 cd Geospatial-Data-Visualization-Service
 ```
@@ -29,19 +29,19 @@ cd Geospatial-Data-Visualization-Service
 
 Creating a conda environment will help you keep the application's dependencies separate from the system-wide packages.
 
-```console
+```bash
 conda create -n environment_name python=3.x
 ```
 
 Activate the conda environment:
 
 (Windows)
-```console
+```bash
 conda activate environment_name
 ```
 
 (Linux/Mac):
-```console
+```bash
 source activate environment_name
 ```
 
@@ -50,12 +50,12 @@ source activate environment_name
 Make sure your conda environment is activated. Then, install the application's dependencies using conda or pip, depending on your preference.
 
 Using conda:
-```console
+```bash
 conda install --file requirements.txt
 ```
 
 Using pip (if the package is not available in conda):
-```console
+```bash
 pip install -r requirements.txt
 ```
 
@@ -66,7 +66,7 @@ Suppose we are in project folder.
 
 ##### 4.1 Run server
 Run the following command:
-```console
+```bash
 python Codice/app.py
 ```
 We have set a local ip address as example: 127.0.0.1:5000.
@@ -75,7 +75,7 @@ Now we should open our browser and on address bar write: [http://127.0.0.1:5000/
 
 ##### 4.2 Load Data on server
 Open another Anaconda Terminal and type:
-```console
+```bash
 cd Geospatial-Data-Visualization-Service
 
 python iotdevice.py
