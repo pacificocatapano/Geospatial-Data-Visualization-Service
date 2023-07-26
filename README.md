@@ -1,4 +1,4 @@
-# Geospatial Data Visualization Service \U+1F30E
+# Geospatial Data Visualization Service &#x1F30D;
 
 The application has been designed to meet the needs of users working with geospatial data, providing them with a dedicated environment for storing and visualizing geospatial data. 
 
