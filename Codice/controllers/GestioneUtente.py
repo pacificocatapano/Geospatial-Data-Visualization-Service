@@ -101,7 +101,7 @@ def registrazione():
         except connection.IntegrityError:
             msg = f'L\'utente {email} è già registrato.'
             connection.close()
-            return redirect(url_for('registrazione')), 400
+            return render_template('login.html', msg=msg), 400
 
         # Reindirizza l'utente a una pagina di conferma o alla pagina di login
         return redirect(url_for('login'))

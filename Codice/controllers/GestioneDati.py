@@ -1,6 +1,6 @@
 import pandas as pd
 from flask import render_template, session, redirect, url_for, request, jsonify
-
+import json
 from DB.DB import connectDB
 
 def dati():
@@ -12,14 +12,19 @@ def dati():
     connection.close()
    
     if 'loggedin' in session:
-         ECEF = ECEF.drop('ID',axis=1)
-         LLH = LLH.drop('ID',axis=1)
-         STATUS = STATUS.drop('ID',axis=1)
+         ECEF = ECEF.drop('ID', axis=1)
+         LLH = LLH.drop('ID', axis=1)
+         STATUS = STATUS.drop('ID', axis=1)
          html_table_ecef = ECEF.to_html(classes='table table-stripped')
          html_table_llh = LLH.to_html(classes='table table-stripped')
          html_table_status = STATUS.to_html(classes='table table-stripped')
+         
+         llh_coordinates = LLH[['lat', 'lon']].to_dict('records')
+         print(llh_coordinates)
+         print("OKOK")
+         llh_coordinates_json = json.dumps(llh_coordinates)
             
-         return render_template('dati.html' , table_ecef=html_table_ecef, table_llh=html_table_llh, table_status=html_table_status), 200
+         return render_template('dati.html', table_ecef=html_table_ecef, table_llh=html_table_llh, table_status=html_table_status, llh_coordinates=llh_coordinates_json), 200
     return redirect(url_for('login'))
 
 def acquisisciDati():

@@ -218,6 +218,8 @@
 		}
 
     </style>
+	
+
 </head>
 <body>
     <span class="open-icon" onclick="toggleSidebar()">&#9776;</span>
@@ -242,33 +244,36 @@
     <div class="content">
         <h1 class="title">Dati geospaziali 🌍</h1>
 			
-	<h3>LLH</h3>
-	<div class="dataframe-container" id="llh-table-container">
-		<table class="dataframe" id="llh-table">
-			<!-- LLH dataframe content -->
-			{{ table_llh|safe }}
-		</table>
+		<h3>LLH</h3>
+		<div class="dataframe-container" id="llh-table-container">
+			<table class="dataframe" id="llh-table">
+				<!-- LLH dataframe content -->
+				{{ table_llh|safe }}
+			</table>
+		</div>
+
+		<h3>STATUS</h3>
+		<div class="dataframe-container" id="status-table-container">
+			<table class="dataframe" id="status-table">
+				<!-- STATUS dataframe content -->
+				{{ table_status|safe }}
+			</table>
+		</div>
+
+		<h3>ECEF</h3>
+		<div class="dataframe-container" id="ecef-table-container">
+			<table class="dataframe" id="ecef-table">
+				<!-- ECEF dataframe content -->
+				{{ table_ecef|safe }}
+			</table>
+		</div>
+
+		<div id="map" ></div>
+		<button onclick="initMap()">Update Map</button>
+
 	</div>
-
-	<h3>STATUS</h3>
-	<div class="dataframe-container" id="status-table-container">
-		<table class="dataframe" id="status-table">
-			<!-- STATUS dataframe content -->
-			{{ table_status|safe }}
-		</table>
-	</div>
-
-	<h3>ECEF</h3>
-	<div class="dataframe-container" id="ecef-table-container">
-		<table class="dataframe" id="ecef-table">
-			<!-- ECEF dataframe content -->
-			{{ table_ecef|safe }}
-		</table>
-	</div>
-
-	<div id="map" ></div>
-
     
+	
     <script>
         function toggleSidebar() {
             var sidebar = document.querySelector('.sidebar');
@@ -333,21 +338,21 @@
 		}
 		
 		    // Funzione per effettuare la richiesta GET
-    function getLatestData() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/get_latest_data', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
+		function getLatestData() {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', '/get_latest_data', true);
+			xhr.setRequestHeader('Content-Type', 'application/json');
 
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var data = JSON.parse(xhr.responseText);
-                // Aggiorna i dati nella pagina
-                updateData(data);
-            }
-        };
+			xhr.onload = function() {
+				if (xhr.status === 200) {
+					var data = JSON.parse(xhr.responseText);
+					// Aggiorna i dati nella pagina
+					updateData(data);
+				}
+			};
 
-        xhr.send();
-    }
+			xhr.send();
+		}
 
     // Funzione per aggiornare i dati nella pagina
     function updateData(data) {
@@ -362,6 +367,8 @@
         // Aggiorna il dataframe ECEF
         var ecefContainer = document.getElementById('ecef-table-container');
         ecefContainer.innerHTML = data.ecefTable;
+		
+		
     }
 
     // Esegui la richiesta GET ogni secondo
@@ -378,39 +385,29 @@
     </script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0gyn5_tmG0MMECCfg6K6YDoMFtN5BcwU&callback=initMap" async defer></script>
 	<script>
-		// Funzione di callback per inizializzare la mappa
+		var llh_coordinates = {{ llh_coordinates|safe }}
+		
 		function initMap() {
-			// Coordinate del centro della mappa
-			var center = { lat: 40.8279405, lng: 14.1904862 }; // Esempio: New York City
-
-			// Opzioni della mappa
+			var center = { lat: 40.8279405, lng: 14.1904862 }; // Centro di esempio
 			var mapOptions = {
 				center: center,
-				zoom: 12 // Livello di zoom iniziale
+				zoom: 12
 			};
+			map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-			// Crea la mappa
-			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-			
-			// Array di coppie di latitudine e longitudine
-			var locations = [
-				{ lat: 40.8279405, lng: 14.1904862 },
-				{ lat: 34.052235, lng: -118.243683 },
-				{ lat: 51.5074, lng: -0.1278 }
-				// Aggiungi altre coppie di coordinate qui
-			];
-
-			// Cicla attraverso l'array delle posizioni e crea un marker per ciascuna
-			for (var i = 0; i < locations.length; i++) {
-				var location = locations[i];
+			for (var i = 0; i < llh_coordinates.length; i++) {
+				var location = llh_coordinates[i];
 				var marker = new google.maps.Marker({
-					position: location,
+					position: { lat: location.lat, lng: location.lon },
 					map: map,
 					title: 'Posizione del marker ' + i
 				});
 			}
 		}
 	</script>
+
+
+	
 
 </body>
 </html>
