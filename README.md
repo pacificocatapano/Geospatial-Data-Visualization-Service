@@ -67,7 +67,8 @@ Suppose we are in project folder.
 ##### 4.1 Run server
 Run the following command:
 ```bash
-python Codice/app.py
+cd Codice
+python app.py
 ```
 We have set a local ip address as example: 127.0.0.1:5000.
 
