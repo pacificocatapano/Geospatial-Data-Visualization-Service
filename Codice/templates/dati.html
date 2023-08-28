@@ -211,6 +211,11 @@
         .cm-toggle:checked:after {
             background: #2c7ee9;
         }
+		
+		#map {
+			width: 75%; /* Imposta la larghezza al 100% del contenitore */
+			height: 500px /* Imposta l'altezza al 100% del contenitore */
+		}
 
     </style>
 </head>
@@ -261,6 +266,7 @@
 		</table>
 	</div>
 
+	<div id="map" ></div>
 
     
     <script>
@@ -370,5 +376,41 @@
 			}
 		}
     </script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0gyn5_tmG0MMECCfg6K6YDoMFtN5BcwU&callback=initMap" async defer></script>
+	<script>
+		// Funzione di callback per inizializzare la mappa
+		function initMap() {
+			// Coordinate del centro della mappa
+			var center = { lat: 40.8279405, lng: 14.1904862 }; // Esempio: New York City
+
+			// Opzioni della mappa
+			var mapOptions = {
+				center: center,
+				zoom: 12 // Livello di zoom iniziale
+			};
+
+			// Crea la mappa
+			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+			
+			// Array di coppie di latitudine e longitudine
+			var locations = [
+				{ lat: 40.8279405, lng: 14.1904862 },
+				{ lat: 34.052235, lng: -118.243683 },
+				{ lat: 51.5074, lng: -0.1278 }
+				// Aggiungi altre coppie di coordinate qui
+			];
+
+			// Cicla attraverso l'array delle posizioni e crea un marker per ciascuna
+			for (var i = 0; i < locations.length; i++) {
+				var location = locations[i];
+				var marker = new google.maps.Marker({
+					position: location,
+					map: map,
+					title: 'Posizione del marker ' + i
+				});
+			}
+		}
+	</script>
+
 </body>
 </html>
