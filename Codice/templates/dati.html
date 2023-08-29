@@ -369,6 +369,7 @@
         ecefContainer.innerHTML = data.ecefTable;
 		
 		
+		
     }
 
     // Esegui la richiesta GET ogni secondo
@@ -385,7 +386,11 @@
     </script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0gyn5_tmG0MMECCfg6K6YDoMFtN5BcwU&callback=initMap" async defer></script>
 	<script>
-		var llh_coordinates = {{ llh_coordinates|safe }}
+		var llh_coordinates = {{ llh_coordinates|safe }};
+		
+		function updateCoordinates(){
+			llh_coordinates = {{ llh_coordinates|safe }};
+		}
 		
 		function initMap() {
 			var center = { lat: 40.8279405, lng: 14.1904862 }; // Centro di esempio
@@ -394,8 +399,10 @@
 				zoom: 12
 			};
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-			for (var i = 0; i < llh_coordinates.length; i++) {
+			
+			updateCoordinates();
+			
+			for (var i = 0; i < llh_coordinates.length; i++){
 				var location = llh_coordinates[i];
 				var marker = new google.maps.Marker({
 					position: { lat: location.lat, lng: location.lon },
