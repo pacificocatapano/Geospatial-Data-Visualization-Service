@@ -76,7 +76,7 @@ def login():
         else:
             msg = 'Credenziali inserite non valide!'
             connection.close()
-            return render_template('login.html', msg=msg), 401
+            return render_template('login.html', msg=msg), 401 
     
     return render_template('login.html', msg=msg)
 
