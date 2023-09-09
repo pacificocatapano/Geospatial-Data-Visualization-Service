@@ -11,6 +11,7 @@ The application is composed from:
 * An User Interface that run on browser (client).
 
 ![ ](Demo/sshot-5.png)
+![ ](Demo/sshot-6.png)
 
 ## Installation guide
 
