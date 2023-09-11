@@ -10,6 +10,9 @@ The application is composed from:
 * The service itself (server);
 * An User Interface that run on browser (client).
 
+![ ](Demo/sshot-5.png)
+![ ](Demo/sshot-6.png)
+
 ## Installation guide
 
 ### Requirements
